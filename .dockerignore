@@ -1,0 +1,17 @@
+node_modules
+backend/node_modules
+frontend_web/node_modules
+.git
+backend/.env
+backend/.env.example
+frontend/.env.development
+frontend/.env.production
+frontend/.env.example
+.env
+.env.example
+.env.development
+.env.production
+backend/media/**
+backend/api/migrations/*
+backend/api/migrations/**
+

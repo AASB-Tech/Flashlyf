@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+
+  # DJANGO
+  flashlyf-backend-dev:
+    image: flashlyf-backend-dev
+    container_name: flashlyf-backend-dev
+    build:
+        context: ./backend
+        target: development
+    env_file:
+        - backend/.env
+        - postgresql/.env
+    restart: always
+    expose: 
+      - 8000
+    ports:
+      - '8000:8000'
+    networks:
+      - flashlyf-network-dev
+    depends_on:
+      - flashlyf-pg-db
+      - flashlyf-redis-db
+    volumes:
+      - ./backend:/backend:z  # This allows for realtime changes to be effective
+
+  # NEXTJS frontend website
+  flashlyf-frontend-dev:
+    container_name: flashlyf-frontend-dev
+    build:
+      context: ./frontend
+      target: development
+    env_file:
+        - frontend/.env
+    restart: always
+    image: flashlyf-frontend-dev
+    expose: 
+      - 3000
+    ports:
+      - '3000:3000'
+    networks:
+      - flashlyf-network-dev
+    depends_on:
+      - flashlyf-backend-dev
+    volumes:
+      - ./frontend:/frontend  # Mount the local code directory as a volume, for Hot reloading
+
+  # POSTGRES
+  flashlyf-pg-db:
+    container_name: flashlyf-pg-db-dev
+    image: postgres:14-alpine  
+    restart: always
+    env_file:
+        - postgresql/.env
+    expose: 
+      - 5432
+    ports:
+      - "6432:5432"  # For people that run postgres on their linux machine :)
+    networks:
+      - flashlyf-network-dev
+    volumes:
+      - flashlyf-storage-dev:/var/lib/postgresql/data 
+      - ./postgresql:/docker-entrypoint-initdb.d # Init script for database
+
+  # REDIS
+  flashlyf-redis-db:
+    container_name: flashlyf-redis-db-dev
+    image: redis:7-alpine  
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning
+    expose: 
+      - 6379
+    ports:
+      - '6379:6379'
+    networks:
+      - flashlyf-network-dev
+    volumes: 
+      - flashlyf-storage-dev:/redis-data
+
+## NGINX reverse-proxy load balancing webserver
+#  flashlyf-nginx-dev:
+#    container_name: flashlyf-nginx-dev
+#    build:
+#      context: ./nginx
+#      target: development
+#    restart: always
+#    ports:
+#    - '80:80'
+#    networks:
+#      - flashlyf-network-dev
+
+volumes:
+  flashlyf-storage-dev:
+    driver: local
+
+networks:
+  flashlyf-network-dev:
+    driver: bridge
