@@ -9,7 +9,6 @@ RUN apk update \
     && pip install psycopg2
 
 COPY . /backend
-COPY ./entrypoint.sh /backend
 WORKDIR /backend
 
 # add and run as non-root user (this causes an error?)
@@ -22,8 +21,8 @@ RUN pip install -r requirements.txt
 # Run the script to create superuser (UNTESTED)
 # RUN python create_superuser.py
 
-RUN sed -i 's/\r$//g' /backend/entrypoint.sh
 RUN chmod +x /backend/entrypoint.sh
+RUN sed -i 's/\r$//g' /backend/entrypoint.sh
 
 ENTRYPOINT ["/backend/entrypoint.sh"]
 CMD ["gunicorn", "--threads=4", "--worker-class=gthread", "--max-requests", "1200", "django_server.wsgi"]
@@ -43,7 +42,7 @@ RUN apk update \
     && pip install psycopg2
 
 COPY . /backend
-COPY ./entrypoint.sh /backend
+#RUN chown -R /backend
 WORKDIR /backend
 
 # add and run as non-root user (this causes an error?)
@@ -53,8 +52,8 @@ WORKDIR /backend
 #RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install -r requirements.txt
 
-RUN sed -i 's/\r$//g' /backend/entrypoint.sh
 RUN chmod +x /backend/entrypoint.sh
+RUN sed -i 's/\r$//g' /backend/entrypoint.sh
 
 ENTRYPOINT ["/backend/entrypoint.sh"]
 CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]

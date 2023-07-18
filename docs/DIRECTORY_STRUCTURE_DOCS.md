@@ -62,6 +62,10 @@ Constants that can be used troughout the app.
 
 Independent React hooks that can be used in React components.
 
+### /frontend_web/shared/providers
+
+Providers that can used troughout the app. Most are placed in the root layout in `frontend_web/app/layout.js`
+
 ### /frontend_web/shared/utils
 
 Utility functions that can be used troughout the app.

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import auth_views, user_views, analytics_views, album_views, friendship_views, post_views, comment_views, server_views
+from .views import auth_views, user_views, analytics_views, post_views, comment_views, server_views
 from rest_framework.routers import DefaultRouter
 
 urlpatterns = [

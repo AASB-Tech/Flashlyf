@@ -153,7 +153,7 @@ class Api {
     
     async getFollowersList() {
         try {
-            const response = await this.api.get(`api/friends/getFollowersList`);
+            const response = await this.api.get(`api/followers/getFollowersList`);
             return response.data;
         }
         catch (error) {

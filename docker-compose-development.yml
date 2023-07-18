@@ -29,10 +29,10 @@ services:
   flashlyf-frontend-dev:
     container_name: flashlyf-frontend-dev
     build:
-      context: ./frontend
+      context: ./frontend_web
       target: development
     env_file:
-        - frontend/.env
+        - frontend_web/.env
     restart: always
     image: flashlyf-frontend-dev
     expose: 
@@ -44,7 +44,7 @@ services:
     depends_on:
       - flashlyf-backend-dev
     volumes:
-      - ./frontend:/frontend  # Mount the local code directory as a volume, for Hot reloading
+      - ./frontend_web:/frontend_web  # Mount the local code directory as a volume, for Hot reloading
 
   # POSTGRES
   flashlyf-pg-db:
@@ -78,17 +78,17 @@ services:
     volumes: 
       - flashlyf-storage-dev:/redis-data
 
-## NGINX reverse-proxy load balancing webserver
-#  flashlyf-nginx-dev:
-#    container_name: flashlyf-nginx-dev
-#    build:
-#      context: ./nginx
-#      target: development
-#    restart: always
-#    ports:
-#    - '80:80'
-#    networks:
-#      - flashlyf-network-dev
+# NGINX reverse-proxy load balancing webserver
+  flashlyf-nginx-dev:
+    container_name: flashlyf-nginx-dev
+    build:
+      context: ./nginx
+      target: development
+    restart: always
+    ports:
+    - '80:80'
+    networks:
+      - flashlyf-network-dev
 
 volumes:
   flashlyf-storage-dev:

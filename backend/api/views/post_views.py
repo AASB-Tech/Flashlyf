@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from api.models import User, Post, DeletedPostReference, PostLikes, Picture, Album
+from api.models import User, Post, DeletedPostReference
 from api.serializers import PostSerializer
 from api.utils.handle_file_save import handle_file_save
 from django.db.models import Q
@@ -23,62 +23,62 @@ def get_posts_user(request, user_id):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def create_post(request):
-    user = request.user
-    text_content = request.POST.get("text_content")
-    print(text_content)
-    picture = None
-    try:
-        # Post contains a file
-        if request.FILES:
-            image_file = request.FILES.get('image') 
-            # Create the Picture instance
-            picture = Picture.objects.create(
-                user=user,
-                description="Image upload from note.",
-                file=image_file
-            )
-            # Get the default album for the user.
-            album = Album.objects.get(user=user, title="Default album")
-            # Add the picture to the default album
-            album.pictures.add(picture)
-            # Save the image file to filesystem
-            file_path = os.path.join(
-                settings.MEDIA_ROOT,
-                f"users/{user.id}/albums/{album.id}/{picture.id}.jpg"
-            )
-            # os.makedirs(os.path.dirname(file_path), exist_ok=True) # the default album should already be created upon user creation
-            is_handle_file_save_sucess = handle_file_save(image_file, file_path)
-            if not is_handle_file_save_sucess:
-                payload = {"message": "File upload failed."}
-                return Response(payload, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+#     user = request.user
+#     text_content = request.POST.get("text_content")
+#     print(text_content)
+#     picture = None
+#     try:
+#         # Post contains a file
+#         if request.FILES:
+#             image_file = request.FILES.get('image') 
+#             # Create the Picture instance
+#             # picture = Picture.objects.create(
+#             #     user=user,
+#             #     description="Image upload from note.",
+#             #     file=image_file
+#             # )
+#             # Get the default album for the user.
+#             #album = Album.objects.get(user=user, title="Default album")
+#             # Add the picture to the default album
+#             #album.pictures.add(picture)
+#             # Save the image file to filesystem
+#             # file_path = os.path.join(
+#             #     settings.MEDIA_ROOT,
+#             #     f"users/{user.id}/albums/{album.id}/{picture.id}.jpg"
+#             # )
+#             # os.makedirs(os.path.dirname(file_path), exist_ok=True) # the default album should already be created upon user creation
+#             # is_handle_file_save_sucess = handle_file_save(image_file, file_path)
+#             if not is_handle_file_save_sucess:
+#                 payload = {"message": "File upload failed."}
+#                 return Response(payload, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        print("ONE")
-        # Create the Post instance
-        post = Post.objects.create(
-            user=user,
-            text_content=text_content
-            )
-        print("TWO")
-        # add picture instance to post instance
-        if picture:
-            print("INSIDE IF PICTURE")
-            post.pictures.add(picture)
-            post.save()
-        print("THREE")
+#         print("ONE")
+#         # Create the Post instance
+#         post = Post.objects.create(
+#             user=user,
+#             text_content=text_content
+#             )
+#         print("TWO")
+#         # add picture instance to post instance
+#         if picture:
+#             print("INSIDE IF PICTURE")
+#             post.pictures.add(picture)
+#             post.save()
+#         print("THREE")
 
-    except Exception as e:
-        # Check if a post has been created, if yes, delete it upon error.
-        if "post" in locals():
-            post.delete()
-        # Delete the saved file too.
-            # if "is_handle_file_save_sucess" in locals():
-            #     if is_handle_file_save_sucess != False:
-            #         handle_file_delete(file_path)
-        print(e)
-        payload = {"message": e.args[0]}
-        return Response(payload, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+#     except Exception as e:
+#         # Check if a post has been created, if yes, delete it upon error.
+#         if "post" in locals():
+#             post.delete()
+#         # Delete the saved file too.
+#             # if "is_handle_file_save_sucess" in locals():
+#             #     if is_handle_file_save_sucess != False:
+#             #         handle_file_delete(file_path)
+#         print(e)
+#         payload = {"message": e.args[0]}
+#         return Response(payload, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-    # TODO: Create a notification towards friends of the post"s user. (in Redis)
+#     # TODO: Create a notification towards followers of the post"s user. (in Redis)
         
     payload = {"message": "Post created successfully"}
     return Response(payload, status=status.HTTP_201_CREATED)

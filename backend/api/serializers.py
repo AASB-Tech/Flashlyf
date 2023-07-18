@@ -1,4 +1,4 @@
-from api.models import User, UserProfile, UserNotificationPreferences, FriendRequest, Post, Comment
+from api.models import User, UserProfile, UserNotificationPreferences, Post, Comment
 from rest_framework import serializers
 
 # Field serializer

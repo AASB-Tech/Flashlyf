@@ -10,8 +10,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV SESSION_SECRET=abdc
 ENV HTTPS=true
 
-COPY . /frontend
-WORKDIR /frontend
+COPY . /frontend_web
+WORKDIR /frontend_web
 RUN npm install
 RUN npx next telemetry disable
 RUN npm run build
@@ -19,8 +19,8 @@ CMD ["npm", "run", "start"]
 
 FROM node:alpine AS development
 
-COPY . /frontend
-WORKDIR /frontend
+COPY . /frontend_web
+WORKDIR /frontend_web
 RUN npm install
 RUN npx next telemetry disable
 CMD ["npm", "run", "dev"]
