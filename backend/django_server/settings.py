@@ -31,8 +31,7 @@ elif os.getenv("STAGE") == "development":
     runserver.default_port = os.getenv("PORT")
     BASE_URL = "http://" + \
         os.getenv("DOMAIN") + ":" + os.getenv("PORT")
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+    DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
     SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
     GOOGLE_ANALYTICS_ID = ""
     FACEBOOK_PIXEL_ID = ""
@@ -276,20 +275,25 @@ SESSION_COOKIE_NAME = "sessionid"
 SESSION_COOKIE_AGE = 604800 # 1 week in seconds 
 SESSION_COOKIE_PATH = "/"
 SESSION_COOKIE_HTTPONLY = True # client-side JavaScript will not be able to access the session cookie.
-SESSION_COOKIE_SAMESITE = 'None' #Default: "Lax"
+SESSION_COOKIE_SAMESITE = 'Lax' #Default: "Lax"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False # Wether the session is deleted when the browser is closed
-SESSION_SAVE_EVERY_REQUEST = True # if False session data will only be saved if it has been modified
+SESSION_SAVE_EVERY_REQUEST = False # if False session data will only be saved if it has been modified
+# CSRF Config
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_USE_SESSIONS = False #if True CSRF tokens will be saved in the session cookie
+CSRF_COOKIE_HTTPONLY = False # client-side Javascript can read the csrf cookie
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_HEADER_NAME = "HTTP_X_CSRFTOKEN" # The name of the request header used for CSRF authentication.
 if os.getenv("STAGE") == "production":
-    SESSION_COOKIE_SECURE = False  # Send cookie over HTTPS only
-    #SESSION_COOKIE_DOMAIN = '.herokuapp.com'
-    SESSION_COOKIE_DOMAIN = 'https://flashlyf.com/'
-    #CSRF_COOKIE_DOMAIN = '.herokuapp.com'
-    CSRF_COOKIE_DOMAIN = 'https://flashlyf.com/'
+    SESSION_COOKIE_SECURE = True  # Send cookie over HTTPS only
+    CSRF_COOKIE_SECURE = True # Send csrf cookie over HTTPS only
+    SESSION_COOKIE_DOMAIN = 'flashlyf.com'
+    CSRF_COOKIE_DOMAIN = 'flashlyf.com'
 elif os.getenv("STAGE") == "development":
     SESSION_COOKIE_SECURE = False  
+    CSRF_COOKIE_SECURE = False 
     SESSION_COOKIE_DOMAIN = '.localhost'
     CSRF_COOKIE_DOMAIN = '.localhost'
-
 
 AUTH_USER_MODEL = "api.User"
 AUTHENTICATION_BACKENDS = [

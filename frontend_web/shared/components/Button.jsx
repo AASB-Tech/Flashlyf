@@ -1,7 +1,7 @@
 import "./button.css";
 import Link from "next/link";
 
-const Button = ({ text, link, type, onclick }) => {
+export default function Button({ text, link, type, onclick }) {
   return (
     <>
       <Link href={`${link}`}>
@@ -15,6 +15,5 @@ const Button = ({ text, link, type, onclick }) => {
       </Link>
     </>
   );
-};
+}
 
-export default Button;

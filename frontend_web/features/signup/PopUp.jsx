@@ -1,7 +1,7 @@
 import Button from "@/shared/components/Button";
 import "./popup.css";
 
-const PopUp = () => {
+export default function PopUp() {
   return (
     <>
       <div>
@@ -19,6 +19,4 @@ const PopUp = () => {
       </div>
     </>
   );
-};
-
-export default PopUp;
+}

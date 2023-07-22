@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import api from "@/clientAPI/api.js";
 import { usePageGaurd } from "@/shared/hooks/usePageGuard";
 
-const LoginForm = () => {
+export default function LoginForm() {
 
   const router = useRouter();
 
@@ -97,6 +97,4 @@ const LoginForm = () => {
           </form>
     </>
   );
-};
-
-export default LoginForm;
+}

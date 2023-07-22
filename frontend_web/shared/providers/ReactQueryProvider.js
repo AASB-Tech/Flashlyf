@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient()
 
-function ReactQueryProvider({ children })
+export default function ReactQueryProvider({ children })
 {
 
     return (
@@ -20,4 +20,3 @@ function ReactQueryProvider({ children })
     )
 }
 
-export default ReactQueryProvider

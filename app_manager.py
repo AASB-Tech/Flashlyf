@@ -65,7 +65,7 @@ command_descriptions = {
     "list-packages-backend":     "Lists the packages of the backend.",
     "install-packages-frontend": "Installs the packages of the frontend.",
     "install-packages-backend":  "Installs the packages of the backend.",
-    "intstall-all-packages":     "Install packages on both frontend and backend.",
+    "install-all-packages":     "Install packages on both frontend and backend.",
     "reset-migrations":          "Resets the Django database migrations.",
     "flush-db-staging":          "Flushes the staging environment postgresql database.",
     "flush-db-local":            "Flushes the local postgresql database.",

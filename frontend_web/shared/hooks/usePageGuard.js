@@ -6,7 +6,7 @@ import api from "@/clientAPI/api";
 
 //A custom react hook that can be placed in pages.
 //If the user is not logged in it will redirect the user to the redirectUrl
-const usePageGaurd = (redirectUrl, block=true, AllowedRoles=["normal"], ) => {
+export const usePageGaurd = (redirectUrl, block=true, AllowedRoles=["normal"], ) => {
     const router = useRouter();
 
     useEffect(() => {
@@ -31,5 +31,3 @@ const usePageGaurd = (redirectUrl, block=true, AllowedRoles=["normal"], ) => {
         checkAuth();
     }, [router, redirectUrl]);
 };
-
-export { usePageGaurd };

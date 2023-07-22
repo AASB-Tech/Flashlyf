@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 #from django.middleware.csrf import get_token
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -20,6 +21,7 @@ def register(request):
     return Response(payload, status=status.HTTP_201_CREATED)
 
 @api_view(["POST"])
+@ensure_csrf_cookie
 def login_view(request):
     email = request.data.get("email")
     password = request.data.get("password")

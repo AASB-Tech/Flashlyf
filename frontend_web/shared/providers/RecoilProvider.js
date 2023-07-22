@@ -2,7 +2,7 @@
 
 import { RecoilRoot } from "recoil";
 
-function RecoilProvider({ children })
+export default function RecoilProvider({ children })
 {
 
     return (
@@ -11,5 +11,3 @@ function RecoilProvider({ children })
         </RecoilRoot>
     )
 }
-
-export default RecoilProvider

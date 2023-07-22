@@ -5,6 +5,7 @@ import { IsClientCtxProvider } from '@/shared/providers/IsClientCtxProvider';
 import ReactQueryProvider from '@/shared/providers/ReactQueryProvider';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import '@fortawesome/fontawesome-svg-core/styles.css'
 
 const inter = Inter({ subsets: ['latin'] })
 

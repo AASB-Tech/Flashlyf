@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import api from "@/clientAPI/api.js";
 import PopUp from "./PopUp";
 
-const SignUpForm = () => {
+export default function SignUpForm() {
   const router = useRouter();
   // Values of the email, username, and password input boxes
   const [registerFormState, setRegisterFormState] = useState({
@@ -113,6 +113,4 @@ const SignUpForm = () => {
       </form>
     </>
   );
-};
-
-export default SignUpForm;
+}

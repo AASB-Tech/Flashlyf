@@ -1,7 +1,7 @@
 import Link from "next/link";
 import LoginForm from "./LoginForm";
 
-const Login = () => {
+export default function Login() {
 
   return (
     <>
@@ -24,6 +24,4 @@ const Login = () => {
       </div>
     </>
   );
-};
-
-export default Login;
+}

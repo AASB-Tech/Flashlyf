@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SignUpForm from "./SignUpForm";
 
-const SignUp = () => {
+export default function SignUp() {
   return (
     <>
       <div className="px-6 py-8 w-full flex flex-col gap-[100px]">
@@ -36,6 +36,4 @@ const SignUp = () => {
       </div>
     </>
   );
-};
-
-export default SignUp;
+}
