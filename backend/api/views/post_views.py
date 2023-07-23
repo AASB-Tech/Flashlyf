@@ -20,9 +20,89 @@ def get_posts_user(request, user_id):
     payload = {"data": posts_serialized}
     return Response(payload, status=status.HTTP_200_OK)
 
+
+@login_required
+@post_wrapper
+def create_post(request):
+    text_content = request.POST.get("text_content")
+    hashtags = request.POST.getlist("hashtags")
+    user = request.user
+    # try post creation
+    try:
+        # Post contains a file
+        if request.FILES:
+            uploaded_file = request.FILES.get("file")
+            saved_file = handle_file_save(uploaded_file, "post")
+            if saved_file == False:
+                return JsonResponse({"successs": False, "message": "File upload failed."},
+                                    status=HTTP_STATUS["Internal Server Error"])
+            file_url = saved_file["URL"]
+            # Deterimine the type of post based on the file type
+            post_type = saved_file["file_type"]["mime_type"].split("/")[0]
+        # Post has no file.
+        else:
+            file_url = None
+            post_type = "text"
+
+        post = Post.objects.create(
+            user=user,
+            text_content=text_content,
+            file_url=file_url,
+            post_type=post_type)
+        # Loop through the hashtags and add them to the post instance
+        for tag in hashtags:
+            # If the hashtag does not exist yet, create it and then get it.
+            # If the hashtag already exists, get it.
+            hashtag, created = Hashtag.objects.get_or_create(hashtag=tag)
+            post.hashtags.add(hashtag)
+        post.save()
+    except Exception as e:
+        # Check if a post has been created, if yes, delete it upon error.
+        if "post" in locals():
+            post.delete()
+        # Delete the saved file too.
+        if "saved_file" in locals():
+            if saved_file != False:
+                handle_file_delete(saved_file["location"])
+        print(e)
+        return JsonResponse({"successs": False, "message": e.args[0]},
+                            status=HTTP_STATUS["Internal Server Error"])
+    # Create a notification towards followers of the post"s user. (in Redis)
+    following = Following.objects.filter(
+        following=user).values_list("user", flat=True)
+    followers_users = User.objects.filter(id__in=following).values("id")
+    for follower in followers_users:
+        create_notification(follower.id, {
+            "from": user.id,
+            "event_type": "new_post",
+            "event_reference": post.post_id,
+            "message": f"{user.username} published a new post."
+        })
+    # Store post in the cache
+    post_formatted = Post.format_post_dict(post)
+    cache.set(f"posts_{post.post_id}", post_formatted,
+                timeout=MONTH_IN_SECONDS)
+
+    return JsonResponse({"successs": True, "message": "Post created successfully."},
+                        status=HTTP_STATUS["Created"])
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def create_post(request):
+    text_content = request.POST.get("text_content")
+    hashtags = request.POST.getlist("hashtags")
+    user = request.user
+    file = None
+    # try post creation
+    try:
+        # Post contains a file
+        if request.FILES:
+            uploaded_file = request.FILES.get("file")
+            file_path = os.path.join(
+                settings.MEDIA_ROOT,
+                f"/{fileName}.jpg"
+            )
+    
 #     user = request.user
 #     text_content = request.POST.get("text_content")
 #     print(text_content)

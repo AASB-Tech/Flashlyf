@@ -14,7 +14,9 @@ module.exports = {
       colors: {
         FFblue: "#3734a6",
         FFyellow: "#f7c710",
+        FForange: "#fb4f00",
         FFgrey: "#e6e6e6",
+        FFbluelink: "#000080",
       },
       fontFamily: {
         'ubuntu': ['Ubuntu', 'sans-serif']
@@ -22,7 +24,7 @@ module.exports = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))"
-      }
+      },
     }
   },
   plugins: []

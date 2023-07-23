@@ -4,6 +4,7 @@ import Header from "@/features/home/header/Header";
 import NavigationPanel from "@/features/home/navigationPanel/NavigationPanel";
 //import Home from "@/features/home/Home";
 
+// This is the personal newsfeed
 export default function HomePage() {
   return (
     <div className="max-w-[393px] w-screen bg-[#F9F9F9] h-inherit min-h-[852px]">

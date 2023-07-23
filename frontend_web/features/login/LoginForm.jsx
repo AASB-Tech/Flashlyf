@@ -5,6 +5,9 @@ import Button from "@/shared/components/Button";
 import { useRouter } from "next/navigation"; 
 import api from "@/clientAPI/api.js";
 import { usePageGaurd } from "@/shared/hooks/usePageGuard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
 export default function LoginForm() {
 
@@ -18,6 +21,8 @@ export default function LoginForm() {
     email: "",
     password: ""
   });
+
+  const [passwordVisibility, setPasswordVisibility] = useState(false)
 
   // Error message for the login form
   const [message, setMessage] = useState();
@@ -48,42 +53,67 @@ export default function LoginForm() {
     });
   };
 
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault();
+    setPasswordVisibility(passwordVisibility === true ? false : true);
+  }
+
   return (
     <>
           <form
-            className="w-full"
+            className="max-w-[90%]"
             action="#"
             onSubmit={handleSubmit}
           >
-            <div className="text-dm text-dark flex flex-col gap-[24px] w-full">
+            <div className="text-dm text-dark flex flex-col gap-[24px]">
               <div className="flex flex-col gap-[4px]">
-                <label htmlFor="email">
-                  <b>Email</b>
-                </label>
-                <input
-                  className="h-[50px] p-4 border-[1px] border-[#7E7E7E] rounded-[7.5px] bg-transparent"
-                  type="email"
-                  placeholder="Enter your Email"
-                  name="email"
-                  value={loginFormState.email}
-                  onChange={handleChange}
-                  required
-                ></input>
+                <div className="relative">
+                  <FontAwesomeIcon
+                    className="h-6 w-6 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"
+                    icon={faEnvelope}
+                    fontSize="30px"
+                    style={{color: "#3734a6"}}
+                  />
+                  <input
+                    className="pl-10 pm-10 h-[50px] text-black border-2 border-FFblue bg-white rounded-xl"  
+                    type="email"
+                    placeholder="Email"
+                    name="email"
+                    value={loginFormState.email}
+                    onChange={handleChange}
+                    required
+                  >
+                  </input>
+                </div>
               </div>
 
               <div className="flex flex-col gap-[4px]">
-                <label htmlFor="password">
-                  <b>Password</b>
-                </label>
-                <input
-                  className="h-[50px] p-4 border-[1px] border-[#7E7E7E] rounded-[7.5px] bg-transparent"
-                  type="password"
-                  placeholder="Enter your Password"
-                  name="password"
-                  value={loginFormState.password}
-                  onChange={handleChange}
-                  required
-                ></input>
+                <div className="relative">
+                    <FontAwesomeIcon
+                      className="h-6 w-6 absolute left-3 top-1/2 transform -translate-y-1/2"
+                      icon={faLock}
+                      fontSize="30px"
+                      style={{color: "#3734a6"}}
+                    />
+                    <input
+                      className="pl-10 pm-10 h-[50px] text-black border-2 border-FFblue bg-white rounded-xl"
+                      type={passwordVisibility ? "text" : "password"}
+                      placeholder="Password"
+                      name="password"
+                      value={loginFormState.password}
+                      onChange={handleChange}
+                      required
+                    >
+                    </input>
+                    <button onClick={togglePasswordVisibility}>
+                      <FontAwesomeIcon
+                        className="h-6 w-6 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2"
+                        icon={passwordVisibility ? faEye : faEyeSlash }
+                        fontSize="30px"
+                        style={{color: "#3734a6"}}
+                      />
+                    </button>
+                  </div>
               </div>
               {/* Error message */}
               {message ? <p className="mb-2 text-red-500">{message}</p> : null}

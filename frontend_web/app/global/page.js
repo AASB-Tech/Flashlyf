@@ -1,5 +1,5 @@
 
-
+// This is the global newsfeed
 export default function GlobalPage() {
 
     return (

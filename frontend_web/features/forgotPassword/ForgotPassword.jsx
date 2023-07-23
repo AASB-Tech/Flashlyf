@@ -1,7 +1,7 @@
 import Link from "next/link";
-import LoginForm from "./LoginForm";
+import ForgotPasswordForm from "./ForgotPasswordForm";
 
-export default function Login() {
+export default function ForgotPassword() {
 
   return (
     <>
@@ -9,18 +9,15 @@ export default function Login() {
         <div className="flex flex-col gap-[16px] justify-center items-center">
           <div className="flex flex-col gap-0 w-full">
             <p className="text-dark font-medium text-[30px] text-dm">FlashLyf</p>
+            <p className="mb-8 text-FFblue font-normal text-center">Enter your email and we'll send you a link to reset your password.</p>
           </div>
 
-          <LoginForm />
-
-          <Link href="/forgot-password">
-            <p className="text-FFbluelink underline">Forgot password?</p>
-          </Link>
+          <ForgotPasswordForm />
 
           <div className="mt-16 flex flex-row gap-[5px]">
-            <p className="text-dark">Don't have an account?</p>
+            <p className="text-dark">Go back to </p>
             <Link href="/signup">
-              <button className="text-FFbluelink font-bold underline">Sign Up</button>
+              <button className="text-FFbluelink font-bold underline">Login</button>
             </Link>
           </div>
         </div>

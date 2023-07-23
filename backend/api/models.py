@@ -11,6 +11,15 @@ from api.constants import user_roles, relationships, genders, education, countri
 File system architecture:
 
 /media
+-/avatars
+-/comments
+--/audio
+--/images
+-/posts
+--/audio
+--/images
+--/video
+
 """
 
 # Custom user model

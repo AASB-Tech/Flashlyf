@@ -128,6 +128,23 @@ class Api {
         }
     }
 
+        /**
+     *
+     * @param {String} email
+     * @returns
+    */
+    async resetPassword(email) {
+        try {
+            const response = await this.api.post("api/auth/resetPassword", {
+                email: email
+            });
+            return response.data;
+        }
+        catch (error) {
+                return handleApiError(error);
+        }
+    }
+
     async createPost(text_content, file=null) {
         try {
             const multipartData = createMultiPartFormData({ text_content: text_content }, file);
