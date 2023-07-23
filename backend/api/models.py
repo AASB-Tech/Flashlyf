@@ -19,7 +19,6 @@ File system architecture:
 --/audio
 --/images
 --/video
-
 """
 
 # Custom user model
@@ -76,7 +75,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(
         User, related_name="profile", on_delete=models.CASCADE, primary_key=True, editable=False)
     # TODO: Test and confirm
-    profile_pic = models.ImageField("Profile picture", upload_to="", blank=True, validators=[validate_image_file_size])
+    avatar = models.ImageField("Profile picture", upload_to="", blank=True, validators=[validate_image_file_size])
     # profile_pic_url = models.URLField(max_length=300, default=f"{settings.MEDIA_URL}images/avatars/default-profile-pic.webp")
     given_name = models.CharField(max_length=35, blank=True)
     last_name = models.CharField(max_length=35, blank=True)
@@ -109,9 +108,9 @@ class UserProfile(models.Model):
 class UserNotificationPreferences(models.Model):
     user = models.OneToOneField(User, related_name="notification_preferences", on_delete=models.CASCADE, primary_key=True, editable=False)
     # The is_all settings override all the other settings
-    is_all_email = models.BooleanField(default=True)
-    is_all_push = models.BooleanField(default=True)
-    is_all_inapp = models.BooleanField(default=True)
+    is_all_email = models.BooleanField(default=False)
+    is_all_push = models.BooleanField(default=False)
+    is_all_inapp = models.BooleanField(default=False)
     is_new_follower_email = models.BooleanField(default=True)
     is_new_follower_inapp = models.BooleanField(default=True)
     is_new_follower_push = models.BooleanField(default=True)
@@ -130,6 +129,9 @@ class UserNotificationPreferences(models.Model):
     is_post_deleted_email = models.BooleanField(default=True)
     is_post_deleted_inapp = models.BooleanField(default=True)
     is_post_deleted_push = models.BooleanField(default=True)
+    is_following_new_post_email = models.BooleanField(default=False)
+    is_following_new_post_inapp = models.BooleanField(default=False)
+    is_following_new_post_push = models.BooleanField(default=False)
 
     def __str__(self):
         return f"preferences of {self.user.username}"
@@ -138,6 +140,17 @@ class UserNotificationPreferences(models.Model):
         db_table = "users_notification_preferences"
         verbose_name_plural = "UsersNotificationPreferences"
         
+class UserPrivacySettings(models.Model):
+    user = models.OneToOneField(User, related_name="privacy_settings", on_delete=models.CASCADE, primary_key=True, editable=False)
+    is_profile_searchable = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"privacy settings of {self.user.username}"
+
+    class Meta:
+        db_table = "users_privacy_settings"
+        verbose_name_plural = "UsersPrivacySettings"
+
 # follower follows followee. followee is followed by follower
 class Following(models.Model):
     follower = models.ForeignKey(User, related_name="following", on_delete=models.CASCADE)
@@ -247,6 +260,19 @@ class DeletedPostReference(models.Model):
         db_table = "deleted_posts_references"
         verbose_name_plural = "DeletedPostReferences"
         ordering = ["-created_at"]
+        
+class PostPrivacySettings(models.Model):
+    post = models.OneToOneField(Post, related_name="privacy_settings", on_delete=models.CASCADE, primary_key=True, editable=False)
+    #is_commentable = models.BooleanField(default=True)
+    #is_time_added_visible = models.BooleanField(default=True)
+    #is_time_removed_visible = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"privacy settings of {self.post.id}"
+
+    class Meta:
+        db_table = "posts_privacy_settings"
+        verbose_name_plural = "PostPrivacySettings"
         
 class Comment(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True, editable=False)

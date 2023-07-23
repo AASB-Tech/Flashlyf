@@ -5,7 +5,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from api.models import UserProfile
 from api.utils.set_file_upload_path import set_file_upload_path
-from api.utils.check_mime_type_allowed import check_mime_type_allowed
 from api.utils.get_file_mime_type import get_file_mime_type
 
 @api_view(["PATCH"])
@@ -14,18 +13,19 @@ def change_profile_pic(request):
     user = request.user    
     if request.FILES:
             image_file = request.FILES.get('avatar')
-            file_type = get_file_mime_type(image_file)
-            is_mime_allowed = check_mime_type_allowed(file_type['mime_type'])
-            if not is_mime_allowed:
-                payload = {"message": "File type is not allowed."}
-                return Response(payload, status=status.HTTP_400_BAD_REQUEST)
+            filetype = get_file_mime_type(image_file)
             # Delete the old profile picture, if the old profile pic exists.
-            if user.profile.profile_pic:
-                user.profile.profile_pic.delete()
+            if user.profile.avatar:
+                user.profile.avatar.delete()
+            # Change the filename to userid
+            original_filename = image_file.name
+            file_extension = os.path.splitext(original_filename)[1]
+            new_filename = user.id + file_extension
+            image_file.name = new_filename
             # Start uploading the file
-            upload_path = set_file_upload_path(user.profile, image_file.name, "avatar", reference_instances=[user])
-            user.profile.profile_pic.upload_to = upload_path
-            user.profile.profile_pic.save(upload_path, image_file, save=True)
+            upload_path = set_file_upload_path(user.profile, new_filename, filetype['mime_type'], "avatar")
+            user.profile.avatar.upload_to = upload_path
+            user.profile.avatar.save(upload_path, image_file, save=True)
             
             payload = {"message": "New profile picture uploaded."}
             return Response(payload, status=status.HTTP_200_OK)

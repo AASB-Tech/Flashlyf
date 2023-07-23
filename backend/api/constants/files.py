@@ -5,11 +5,3 @@ ACCEPTED_IMAGE_FORMATS = [
                         ]
 ACCEPTED_VIDEO_FORMATS = ["video/mp4", "video/webm"]
 ACCEPTED_AUDIO_FORMATS = ["audio/mpeg", "audio/ogg", "audio/mp3"]
-
-# * = wildcard (should be matched for UUID patterns)
-# TODO: Change this to correct directory dir
-ALLOWED_MEDIA_PATHS = [
-    "users/*/",
-    "users/*/albums/*/",
-    "users/*/comments/",
-]
