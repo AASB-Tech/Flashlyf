@@ -3,8 +3,9 @@ FROM python:3.11-alpine AS production
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
+# Install dependencies
 RUN apk update \
-    && apk add --virtual build-essential gcc python3-dev musl-dev \
+    && apk add --virtual build-essential gcc python3-dev musl-dev libffi-dev \
     && apk add postgresql-dev \
     && pip install psycopg2
 
@@ -25,6 +26,7 @@ RUN chmod +x /backend/entrypoint.sh
 RUN sed -i 's/\r$//g' /backend/entrypoint.sh
 
 ENTRYPOINT ["/backend/entrypoint.sh"]
+# Start the Gunicorn server for Django
 CMD ["gunicorn", "--threads=4", "--worker-class=gthread", "--max-requests", "1200", "django_server.wsgi"]
 
 # We will need to revisit this file as this doess't really allow to get rid of dev dependencies

@@ -76,6 +76,8 @@ class UserProfile(models.Model):
         User, related_name="profile", on_delete=models.CASCADE, primary_key=True, editable=False)
     # TODO: Test and confirm
     avatar = models.ImageField("Profile picture", upload_to="", blank=True, validators=[validate_image_file_size])
+    total_time_added = models.BigIntegerField(default=0)
+    total_time_removed = models.BigIntegerField(default=0)
     # profile_pic_url = models.URLField(max_length=300, default=f"{settings.MEDIA_URL}images/avatars/default-profile-pic.webp")
     given_name = models.CharField(max_length=35, blank=True)
     last_name = models.CharField(max_length=35, blank=True)
@@ -231,7 +233,30 @@ class Post(models.Model):
         db_table = "posts"
         verbose_name_plural = "Posts"
         ordering = ["-created_at"]
-        
+
+class PostLikesDislikes(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    interaction_type = models.CharField(max_length=7, choices=[
+                                        ("like", "Like"),   
+                                        ("dislike", "Dislike")])
+    # If interaction_type = like then time_changed is added
+    # If interaction_type = dislike then time_changed is removed
+    time_changed = models.IntegerField(blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Post {self.id} {self.interaction_type} by {self.user.username}. Time changed: {self.time_changed}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["post", "user"], name="composite_pk_on_post_likesdislikes")
+        ]
+        db_table = "post_likesdislikes"
+        verbose_name_plural = "PostLikesDislikes"
+        ordering = ["-created_at"]
+
 # This stores a reference to the post that was deleted, 
 # because we can no longer retrieve the post info after its deleted. (because the foreign key is gone after deletion)
 # It only stores the post id, and when a post was created not the whole post info.
@@ -417,3 +442,42 @@ class IssueReport(models.Model):
     class Meta:
         db_table = "issue_reports"
         verbose_name_plural = "IssueReports"
+
+# ==================================================================================================
+# OLD MODELS
+
+# class PostLikes(models.Model):
+#     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     time_added = models.IntegerField(blank=False)
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f"Post {self.id} liked by {self.user.username}. Time removed: {self.time_removed}"
+
+#     class Meta:
+#         constraints = [
+#             models.UniqueConstraint(
+#                 fields=["post", "user"], name="composite_pk_on_post_likes")
+#         ]
+#         db_table = "post_likes"
+#         verbose_name_plural = "PostLikes"
+#         ordering = ["-created_at"]
+        
+# class PostDisLikes(models.Model):
+#     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     time_removed = models.IntegerField(blank=False)
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f"Post {self.id} disliked by {self.user.username}. Time removed: {self.time_removed}"
+
+#     class Meta:
+#         constraints = [
+#             models.UniqueConstraint(
+#                 fields=["post", "user"], name="composite_pk_on_post_dislikes")
+#         ]
+#         db_table = "post_dislikes"
+#         verbose_name_plural = "PostDislikes"
+#         ordering = ["-created_at"]

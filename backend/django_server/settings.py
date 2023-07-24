@@ -17,6 +17,7 @@ from pathlib import Path
 import os
 import dj_database_url
 import redis
+from celery.schedules import crontab
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -95,6 +96,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "corsheaders",
+    "django_celery_beat",
     "api",
 ]
 
@@ -268,6 +270,19 @@ elif os.getenv("STAGE") == "development":
         }
     } 
     
+# Add Celery configuration
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_BIN="/usr/local/bin/celery"
+CELERY_TASK_ALWAYS_EAGER = False # If set to to true celery will run tasks synchronously.
+# Celery task scheduler
+CELERY_BEAT_SCHEDULE = {
+    'delete_expired_posts': {
+        'task': 'api.tasks.delete_expired_posts',
+        'schedule': crontab(minute='*/3') #random.randint(60, 180),  # Schedule the task to run randomly between every 1 and 3 minutes.
+    },
+}
+    
 # Session Config (sessions are stored in Redis)
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
@@ -300,6 +315,8 @@ AUTHENTICATION_BACKENDS = [
     "api.backends.CustomUserModelBackend", 
     "django.contrib.auth.backends.ModelBackend"
 ]
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from api.models import User, Post, DeletedPostReference, Hashtag
+from api.models import User, Post, DeletedPostReference, Hashtag, PostLikesDislikes
 from api.serializers import PostSerializer
 from django.db.models import Q
 from api.utils.set_file_upload_path import set_file_upload_path
@@ -94,6 +94,8 @@ def delete_post(request, post_id):
                                             user=user, 
                                             post_id=post_id,
                                             delete_reason="user deleted",
+                                            time_added=post.time_added,
+                                            time_removedd=post.time_removed,
                                             created_at=post.created_at,
                                             )
     post.delete()
@@ -133,6 +135,49 @@ def edit_post(request):
     
     payload = {"message": "Post updated successfully."}
     return Response(payload, status=status.HTTP_201_CREATED)
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def change_time(request, post_id):
+    interaction_type = request.POST.get("interaction_type")
+    user = request.user
+    post = Post.objects.get(id=post_id)
+    time_change = 1800 # 30 minutes in seconds
+    
+    # Check if user has already changed time on this post.
+    if PostLikesDislikes.objects.filter(user=user, post=post).exists():
+        payload = {"message": f"You have already changed time on this post."}
+        return Response(payload, status=status.HTTP_403_FORBIDDEN)
+    
+    # Record which user liked or disliked which post.
+    PostLikesDislikes.objects.create(
+                                    user=user,
+                                    post=post,
+                                    interaction_type=interaction_type,
+                                    time_changed=time_change
+                                    ) 
+    # Record the time change on the post.
+    if interaction_type == "like":
+        post.expires_at = post.expires_at + timedelta(seconds=time_change)
+        post.time_added += time_change
+        user.profile.total_time_added += time_change
+    elif interaction_type == "dislike":
+        post.expires_at = post.expires_at - timedelta(seconds=time_change)
+        post.time_removed += time_change
+        user.profile.total_time_removed += time_change
+    
+    payload = {"message": f"{'Time added' if interaction_type == 'like' else 'Time removed'} on post with ID: {post_id}"}
+    return Response(payload, status=status.HTTP_201_CREATED)
+
+# @api_view(["POST"])
+# @permission_classes([IsAuthenticated])
+# def add_time(request, post_id):
+#     pass
+
+# @api_view(["POST"])
+# @permission_classes([IsAuthenticated])
+# def remove_time(request, post_id):
+#     pass
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])

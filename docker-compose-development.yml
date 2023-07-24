@@ -41,8 +41,6 @@ services:
       - '3000:3000'
     networks:
       - flashlyf-network-dev
-    depends_on:
-      - flashlyf-backend-dev
     volumes:
       - ./frontend_web:/frontend_web  # Mount the local code directory as a volume, for Hot reloading
 
@@ -77,6 +75,43 @@ services:
       - flashlyf-network-dev
     volumes: 
       - flashlyf-storage-dev:/redis-data
+
+  # Celery 'background' worker for Django
+  flashlyf-celery-worker:
+      command: sh -c "wait-for flashlyf-redis-db:6379 && wait-for flashlyf-backend-dev:8000 -- celery -A django_server worker --loglevel=info"
+      container_name: flashlyf-celery-worker
+      depends_on:
+        - flashlyf-backend-dev
+        - flashlyf-redis-db
+      deploy:
+        replicas: 2
+        restart_policy:
+          condition: on-failure
+        resources:
+          limits:
+            cpus: '0.50'
+            memory: 50M
+          reservations:
+            cpus: '0.25'
+            memory: 20M
+      #hostname: celery-worker
+      image: flashlyf-backend-dev
+      networks:
+        - flashlyf-network-dev
+      restart: on-failure
+
+  # Celery task scheduler for Django
+  flashlyf-celery_beat:
+    command: sh -c "wait-for flashlyf-redis-db:6379 && wait-for flashlyf-backend-dev:8000 -- celery -A django_server.celery beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    container_name: flashlyf-celery_beat
+    depends_on:
+      - flashlyf-backend-dev
+      - flashlyf-redis-db
+    #hostname: celery-beat
+    image: flashlyf-backend-dev
+    networks:
+      - flashlyf-network-dev
+    restart: on-failure
 
 # NGINX reverse-proxy load balancing webserver
   flashlyf-nginx-dev:

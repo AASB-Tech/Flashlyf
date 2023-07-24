@@ -9,6 +9,7 @@ urlpatterns = [
     path("auth/logout", auth_views.logout_view, name="logout"),
     path("auth/checkAuth", auth_views.check_auth, name="check-auth"),
     path("auth/changePassword", auth_views.change_password, name="change-password"),
+    #path("auth/resetPassword", auth_views.reset_password, name="teset-password"),
     # user urls
     path("users/changeProfilePic", user_views.change_profile_pic, name="change-profile-pic"),
     # post or note urls
@@ -16,6 +17,7 @@ urlpatterns = [
     path("posts/createPost", post_views.create_post, name="create-post"),
     path("posts/editPost", post_views.edit_post, name="edit-post"),
     path("posts/deletePost", post_views.delete_post, name="delete-post"),
+    path("posts/changeTime", post_views.change_time, name="change-time"),
     path("posts/reportPost", post_views.report_post, name="report-post"),
     # comment urls
     path("comments/getComments", comment_views.get_comments, name="get-comments"),
