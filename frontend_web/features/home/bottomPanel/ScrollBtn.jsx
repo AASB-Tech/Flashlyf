@@ -17,13 +17,13 @@ export default function ScrollBtn() {
             <FontAwesomeIcon 
                 icon={faArrowsUpDown} 
                 onClick={toggleActive}
-                fontSize="15px"
+                fontSize="30px"
                 style={{color: "#3734a6",}}
             />
             <FontAwesomeIcon 
                 icon={faTableCellsLarge} 
                 onClick={toggleActive}
-                fontSize="15px"
+                fontSize="30px"
                 style={{color: "#3734a6",}}
             />
             {/* {isActive ? 

@@ -13,6 +13,14 @@ from api.utils.set_file_upload_path import set_file_upload_path
 from api.utils.get_file_mime_type import get_file_mime_type
 from api.constants import files
 
+def filter_expired_posts(posts):
+    # Filter out expired posts
+    current_datetime = timezone.now()
+    # Filter out posts that have not expired
+    not_expired_posts = posts.filter(expires_at__gte=current_datetime)
+    # Return the posts that have not expired
+    return not_expired_posts
+    
 # Get all the posts from a user
 @api_view(["GET"])
 def get_posts_user(request, user_id):
@@ -20,6 +28,21 @@ def get_posts_user(request, user_id):
     if user_id:
         user = User.objects.get(id=user_id)
         posts = Post.objects.filter(user=user)[:limit]
+        posts = filter_expired_posts(posts)
+    posts_serialized = PostSerializer(posts, many=True).data
+    payload = {"data": posts_serialized}
+    return Response(payload, status=status.HTTP_200_OK)
+
+# NOT DONE YET
+def get_personal_newsfeed(request):
+    user = request.user
+    
+# NOT DONE YET    
+def get_global_newsfeed(request):
+    limit = int(request.query_params.get('limit', 1))
+    # Get all the posts
+    posts = Post.objects.all()[:limit]
+    posts = filter_expired_posts(posts)
     posts_serialized = PostSerializer(posts, many=True).data
     payload = {"data": posts_serialized}
     return Response(payload, status=status.HTTP_200_OK)

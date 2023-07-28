@@ -4,7 +4,7 @@ export default function LatestNotification() {
 
     return (
         <>
-            <div className="bg-FFgrey whitespace-nowrap text-clip overflow-hidden max-h-6 w-full max-w-fit">
+            <div className="bg-FFgrey text-black whitespace-nowrap text-clip overflow-hidden max-h-6 w-full max-w-fit">
                 <p 
                     className="px-1 scroll-text"
                 >

@@ -54,7 +54,7 @@ services:
     expose: 
       - 5432
     ports:
-      - "6432:5432"  # For people that run postgres on their linux machine :)
+      - "5432:5432"  
     networks:
       - flashlyf-network-dev
     volumes:
@@ -77,41 +77,47 @@ services:
       - flashlyf-storage-dev:/redis-data
 
   # Celery 'background' worker for Django
-  flashlyf-celery-worker:
-      command: sh -c "wait-for flashlyf-redis-db:6379 && wait-for flashlyf-backend-dev:8000 -- celery -A django_server worker --loglevel=info"
-      container_name: flashlyf-celery-worker
-      depends_on:
-        - flashlyf-backend-dev
-        - flashlyf-redis-db
-      deploy:
-        replicas: 2
-        restart_policy:
-          condition: on-failure
-        resources:
-          limits:
-            cpus: '0.50'
-            memory: 50M
-          reservations:
-            cpus: '0.25'
-            memory: 20M
-      #hostname: celery-worker
-      image: flashlyf-backend-dev
-      networks:
-        - flashlyf-network-dev
-      restart: on-failure
+  # flashlyf-celery-worker:
+  #     command: sh -c "wait-for flashlyf-redis-db:6379 && wait-for flashlyf-backend-dev:8000 -- celery -A django_server worker --loglevel=info"
+  #     #container_name: flashlyf-celery-worker  
+  #     env_file:
+  #       - backend/.env
+  #       - postgresql/.env
+  #     depends_on:
+  #       - flashlyf-backend-dev
+  #       - flashlyf-redis-db
+  #     deploy:
+  #       replicas: 2
+  #       restart_policy:
+  #         condition: on-failure
+  #       resources:
+  #         limits:
+  #           cpus: '0.50'
+  #           memory: 50M
+  #         reservations:
+  #           cpus: '0.25'
+  #           memory: 20M
+  #     #hostname: celery-worker
+  #     image: flashlyf-backend-dev
+  #     networks:
+  #       - flashlyf-network-dev
+  #     restart: on-failure
 
-  # Celery task scheduler for Django
-  flashlyf-celery_beat:
-    command: sh -c "wait-for flashlyf-redis-db:6379 && wait-for flashlyf-backend-dev:8000 -- celery -A django_server.celery beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
-    container_name: flashlyf-celery_beat
-    depends_on:
-      - flashlyf-backend-dev
-      - flashlyf-redis-db
-    #hostname: celery-beat
-    image: flashlyf-backend-dev
-    networks:
-      - flashlyf-network-dev
-    restart: on-failure
+  # # Celery task scheduler for Django
+  # flashlyf-celery-beat:
+  #   command: sh -c "wait-for flashlyf-redis-db:6379 && wait-for flashlyf-backend-dev:8000 -- celery -A django_server.celery beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+  #   env_file:
+  #     - backend/.env
+  #     - postgresql/.env
+  #   #container_name: flashlyf-celery-beat-dev
+  #   depends_on:
+  #     - flashlyf-backend-dev
+  #     - flashlyf-redis-db
+  #   #hostname: celery-beat
+  #   image: flashlyf-backend-dev
+  #   networks:
+  #     - flashlyf-network-dev
+  #   restart: on-failure
 
 # NGINX reverse-proxy load balancing webserver
   flashlyf-nginx-dev:

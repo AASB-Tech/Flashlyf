@@ -4,8 +4,9 @@ import NavigationBtn from "@/features/home/navigationPanel/NavigationBtn";
 
 export default function NavigationPanel() {
   return (
-    <>
+    <> 
       <div className="flex flex-row justify-between">
+        <div className="w-[103px] text-center">
         <NavigationBtn 
           type="Search"
           icon={
@@ -16,7 +17,9 @@ export default function NavigationPanel() {
             />
             }
         />
+        </div>
 
+        <div className="w-[103px] text-center">
         <NavigationBtn 
           type="Hashtags"
           icon={
@@ -27,7 +30,9 @@ export default function NavigationPanel() {
             />
             }
         />
+        </div>
 
+        <div className="w-[103px] text-center">
         <NavigationBtn 
           type="Global"
           icon={
@@ -38,7 +43,9 @@ export default function NavigationPanel() {
             />
             }
         />
+        </div>
       </div>
     </>
   );
 }
+//75px

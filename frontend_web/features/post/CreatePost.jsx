@@ -68,7 +68,7 @@ export default function CreatePost() {
                         {hashtagPreview}
                     </p>
                     <label
-                        className=""
+                        className="bg-[#5250a8]"
                         forhtml="newPostHashtags"
                     >
                         Write hashtags below:
@@ -85,7 +85,7 @@ export default function CreatePost() {
                         required
                     ></input>
                     <p 
-                        className=""
+                        className="bg-[#5250a8]"
                     >
                         Add a file:
                     </p>

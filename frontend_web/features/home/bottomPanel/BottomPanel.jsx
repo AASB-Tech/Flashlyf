@@ -1,16 +1,20 @@
 import FlashLyfBtn from "./FlashLyfBtn";
 import ScrollBtn from "./ScrollBtn";
-import TypeFilterBtn from "./TypeFilterBtn";
+import FilterBtn from "./FilterBtn";
 
 export default function BottomPanel() {
 
     return (
     <>
-        <div className="my-4 flex flex-row justify-between">
-            <div className="flex flex-row gap-[5px]">
+        <div className="fixed bottom-0 left-0 w-full">
+            <div className="flex flex-row gap-[5px] m-2">
                 <ScrollBtn />
-                <FlashLyfBtn />
-                <TypeFilterBtn />
+                <div className="flashlyf-btn z-50 mb-2">
+                    <FlashLyfBtn />
+                </div>
+                <div className="absolute right-0 mr-2">
+                    <FilterBtn />
+                </div>
             </div>
         </div>
     </>

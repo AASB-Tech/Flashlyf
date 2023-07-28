@@ -13,7 +13,7 @@ export default function NotificationBtn() {
                     <Link href={`/notifications`}>
                         <FontAwesomeIcon
                             icon={faBell}
-                            fontSize="20px"
+                            fontSize="25px"
                             style={{color: "#3734a6",}}
                         />
                     </Link>
