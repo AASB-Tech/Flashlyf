@@ -21,10 +21,10 @@ export default function SignUpForm() {
   const [passwordVisibility, setPasswordVisibility] = useState(false)
 
   const [success, setSuccess] = useState(false);
-  //Error message for the login form
+  // Error message for the login form
   const [message, setMessage] = useState();
 
-  //Registration logic
+  // Registration logic
   async function handleSubmit(e) {
     e.preventDefault();
     const { email, username, password } = registerFormState;
