@@ -15,7 +15,7 @@ export default function FilterBtn() {
 
     return (
       <>
-        <div className="relative">
+        <div className="relative bg-white">
         <FontAwesomeIcon 
             icon={faFilter} 
             onClick={toggleFilter}
@@ -24,7 +24,6 @@ export default function FilterBtn() {
         />
         {isOpen ? 
           <>
-            {/* <div className="fixed w-full h-full bg-overlay-black max-w-[415px] top-0"></div> */}
             <Backdrop show={true} onClick={toggleFilter} />
             <div className="absolute bottom-full top-auto	right-0 z-50 rounded-lg bg-white border p-2">
               <p className="text-center text-black">Filter by:</p>

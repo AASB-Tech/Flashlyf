@@ -6,7 +6,7 @@ export default function TextLogo() {
             <p 
                 className="font-ubuntu text-FFblue font-bold text-xl"
             >
-                FlashLyf
+                Flashlyf
             </p>
         </>
     );

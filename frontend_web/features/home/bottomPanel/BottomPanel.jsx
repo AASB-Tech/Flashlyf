@@ -9,7 +9,7 @@ export default function BottomPanel() {
         <div className="fixed bottom-0 left-0 w-full">
             <div className="flex flex-row gap-[5px] m-2">
                 <ScrollBtn />
-                <div className="flashlyf-btn z-50 mb-2">
+                <div className="flashlyf-btn">
                     <FlashLyfBtn />
                 </div>
                 <div className="absolute right-0 mr-2">

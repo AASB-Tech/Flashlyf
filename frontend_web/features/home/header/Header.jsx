@@ -1,5 +1,5 @@
 import Link from "next/link";
-import TextLogo from "@/shared/components/TextLogo";
+import TextLogo from "@/shared/components/branding/TextLogo";
 import LatestNotification from "./LatestNotification";
 import NotificationBtn from "./NotificationBtn";
 
