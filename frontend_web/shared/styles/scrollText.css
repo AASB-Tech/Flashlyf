@@ -1,3 +1,4 @@
+/* A CSS class for scrolling a text from right to left */
 .scroll-text {
     /* animation properties */
     -moz-transform: translateX(100%);

@@ -2,6 +2,7 @@
 
 import "./halfCircleOverlay.css";
 //import "@/shared/styles/halfCircleOverlay.css";
+import Link from "next/link";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCircleUser } from "@fortawesome/free-solid-svg-icons";
@@ -18,7 +19,7 @@ export default function FlashLyfBtn() {
     return (
         <>
             <div
-                className="relative bg-FFyellow rounded-full p-1 w-[40px] h-[40px]"
+                className="relative bg-FFyellow rounded-full p-1 w-[50px] h-[50px]"
             >
                 <button
                     onClick={toggleOpen}
@@ -27,29 +28,33 @@ export default function FlashLyfBtn() {
                         className=""
                         src="/svg/flashlyf_logo_no_bg.svg" 
                         alt="Flashlyf Button" 
-                        width="40" 
-                        height="40"
+                        width="50" 
+                        height="50"
                     />
                 </button>
             </div>
             {isOpen ?
                 <>
                 <Backdrop show={true} onClick={toggleOpen} />
-                <div className="absolute bottom-[40px] left-[-20px] flex flex-row opacity-100 z-50 bg-white"> 
+                <div className="absolute bottom-[50px] left-[-25px] flex flex-row opacity-100 z-50 bg-white mb-2"> 
                     <div className="flex m-2 ">
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            fontSize="30px"
-                            style={{color: "#3734a6",}}
-                        />
+                        <Link href="/post/create">
+                            <FontAwesomeIcon
+                                icon={faPlus}
+                                fontSize="30px"
+                                style={{color: "#3734a6",}}
+                            />
+                        </Link>
                     </div>
 
                     <div className="flex m-2 opacity-100 z-50">
-                        <FontAwesomeIcon
-                            icon={faCircleUser}
-                            fontSize="30px"
-                            style={{color: "#3734a6",}}
-                        />
+                        <Link href="/user/1234">
+                            <FontAwesomeIcon
+                                icon={faCircleUser}
+                                fontSize="30px"
+                                style={{color: "#3734a6",}}
+                            />
+                        </Link>
                     </div>
                 </div>
                 </>

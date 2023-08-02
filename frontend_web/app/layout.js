@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ['latin'] })
 //const [queryClient] = React.useState(() => new QueryClient());
 
 export const metadata = {
-  title: 'FlashLyf',
+  title: 'Flashlyf',
   description: 'The time based social media.',
 }
 

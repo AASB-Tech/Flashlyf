@@ -57,12 +57,11 @@ export default function FileInput({ file, setFile, accept }) {
         <div className="file-input">
             <div className="file-input-mask">
                 <button
-                    className="bg-[#6b6b6b] p-[5px] rounded-[3px] text-white mr-[5px]"
+                    className="w-full text-center text-white p-2"
                     onClick={handleChooseFileClick}
                 >
-                    Choose File
+                    Click here to add a file (optional)
                 </button>
-                <span>{file ? file.name : "No file chosen"}</span>
             </div>
             <input
                 ref={inputRef}
@@ -71,7 +70,7 @@ export default function FileInput({ file, setFile, accept }) {
                 name="file"
                 accept={accept ? accept : "image/*, video/*, audio/*"}
                 onInput={handleFile}
-                />
+            />
         </div>
     );
 }

@@ -17,6 +17,10 @@ module.exports = {
         FForange: "#fb4f00",
         FFgrey: "#e6e6e6",
         FFbluelink: "#000080",
+        FFred: "#ff3131",
+        FFgreen: "#23cb98",
+        hashtagblue: "#2a27aa",
+        inactivegrey: "#4d4d4d",
       },
       fontFamily: {
         'ubuntu': ['Ubuntu', 'sans-serif']

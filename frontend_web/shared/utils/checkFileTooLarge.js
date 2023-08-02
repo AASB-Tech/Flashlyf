@@ -1,3 +1,5 @@
+import { KB, MB, GB } from "@/shared/constants/fileSizes";
+
 /**
  * Returns true if file is too large
  * Returns false if file is limit

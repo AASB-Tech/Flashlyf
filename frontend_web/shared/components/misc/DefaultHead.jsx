@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 export default function DefaultHead({
         title,
-        description = "Hello world",
+        description = "Social media app",
         image,
         type = "website",
         children,
@@ -45,7 +45,9 @@ export default function DefaultHead({
                 <link rel="apple-touch-icon" href="/logo192.png" />
                 {/* <!--
                 manifest.json provides metadata used when your web app is installed on a
-                user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+                user's mobile device or desktop. 
+                https://developers.google.com/web/fundamentals/web-app-manifest/
+                https://developer.mozilla.org/en-US/docs/Web/Manifest
                 --> */}
                 <link rel="manifest" href="/manifest.json" />
                 </>
