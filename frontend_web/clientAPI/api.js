@@ -145,9 +145,9 @@ class Api {
         }
     }
 
-    async createPost(text_content, file=null) {
+    async createPost(postData, file=null) {
         try {
-            const multipartData = createMultiPartFormData({ text_content: text_content }, file);
+            const multipartData = createMultiPartFormData(postData, file);
             const response = await this.api.post("api/posts/createPost", multipartData, {
                 headers: { "content-type": "multipart/form-data" }
             });

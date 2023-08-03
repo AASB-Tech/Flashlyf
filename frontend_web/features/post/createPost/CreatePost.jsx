@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark as faCircleXmarkRegular } from "@fortawesome/free-regular-svg-icons";
 import { faCircleXmark as faCircleXmarkSolid, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import PopUpDiscardPost from "./PopUpDiscardPost";
-import { el } from "date-fns/locale";
 
 export default function CreatePost() {
     const router = useRouter()
@@ -23,12 +22,10 @@ export default function CreatePost() {
     // The actual hashtags send to the server.
     const [hashtags, setHashtags] = useState([]);
     const [file, setFile] = useState(null);
-    const [tooltipVisible, setTooltipVisible] = useState(false);
     // For post discard mechanics
     const [isHovered, setIsHovered] = useState(false);
     const [showPopUp, setShowPopUp] = useState(false);
     const [discardAnswer, setDiscardAnswer] = useState(false);
-
 
     // Create post logic
     async function handleSubmit(e) {
@@ -36,6 +33,7 @@ export default function CreatePost() {
         const postData = {
             text_content: textInput,
             hashtags: hashtags,
+            scheduled_time: null
         }
         const response = await api.createPost(postData, file);
     }
@@ -97,34 +95,39 @@ export default function CreatePost() {
         setIsHovered(!isHovered);
     };
 
-    const toggleToolTip = () => {
-        setTooltipVisible(!tooltipVisible);
-    };
-
     return (
         <>
             {showPopUp ? <PopUpDiscardPost  handleAnswer={handleDiscardPost} />
             : null}
-            <p
-                className="font-bold text-black"
-            >
-                @aira_24wyeth
-            </p>
-            
-            {/* Discard button */}
-            <button
-                className="absolute top-0 right-0 mt-2 mr-2"
-            >
-                <FontAwesomeIcon 
-                    icon={isHovered ? faCircleXmarkSolid : faCircleXmarkRegular} 
-                    onMouseEnter={toggleHover}
-                    onMouseLeave={toggleHover}
-                    onClick={togglePopUp}
-                    fontSize="30px"
-                    style={{color: "#000000",}}
+            <div className="flex flex-row">
+                <img
+                    className="m-2"
+                    src="example_img.jpg" 
+                    alt="Profile Picture" 
+                    width="30" 
+                    height="30"
                 />
-            </button>
-            {/* Discard button END */}
+                <p
+                    className="m-2 font-bold text-black"
+                >
+                    @aira_24wyeth
+                </p>
+                
+                {/* Discard button */}
+                <button
+                    className="absolute top-0 right-0 mt-2 mr-2"
+                >
+                    <FontAwesomeIcon 
+                        icon={isHovered ? faCircleXmarkSolid : faCircleXmarkRegular} 
+                        onMouseEnter={toggleHover}
+                        onMouseLeave={toggleHover}
+                        onClick={togglePopUp}
+                        fontSize="30px"
+                        style={{color: "#000000",}}
+                    />
+                </button>
+                {/* Discard button END */}
+            </div>
             <div 
                 className=""
             >
@@ -146,44 +149,18 @@ export default function CreatePost() {
                         value={textInput}
                         onChange={handleChange}
                     />
+
+                    <div
+                        className="relative bg-[#5250a8] w-full p-2 text-center text-white"
+                        forhtml="newPostHashtags"
+                    >
+                        Write hashtags here:
+                    </div>
                     <p 
                         className="w-full min-w-full max-w-full text-hashtagblue px-2 mb-1"
                     >
                         {hashtagPreview}
                     </p>
-                    <div
-                        className="relative bg-[#5250a8] w-full p-2 text-center text-white"
-                        forhtml="newPostHashtags"
-                    >
-                        Write hashtags below:
-                        <FontAwesomeIcon 
-                            className="ml-2"
-                            icon={faCircleInfo}
-                            onMouseEnter={toggleToolTip}
-                            onMouseLeave={toggleToolTip}
-                            onClick={toggleToolTip}
-                            fontSize="15px"
-                            style={{color: "#ffffff",}}
-                        />
-                        {tooltipVisible ? (
-                        <div 
-                            className="absolute border border-black bg-white opacity-95 p-2 rounded-md text-black top-[-35px] left-1/2 transform -translate-x-1/2"
-                        >
-                            <p className="font-bold mb-1">Hashtag requirements:</p>
-                            <ul className="list-disc list-inside">
-                                <li>Minimum of 1 hashtag.</li>
-                                <li>Maximum of 3 hashtags.</li>
-                                <li>Minimum of 3 characters.</li>
-                                <li>Maximum of 50 characters.</li>
-                                <li>Alphabetical characters only.</li>
-                                <li>No special characters.</li>
-                                <li>No duplicate hashtags.</li>
-                                <li>No spaces.</li>
-                                <li>Does not have to start with #</li>
-                            </ul>
-                        </div>)
-                        : null}
-                    </div>
                     <input
                         className="w-full placeholder:text-center text-black p-2 text-hashtagblue"
                         id="newPostHashtags"
@@ -203,7 +180,6 @@ export default function CreatePost() {
                         >
                             Click here to add a file (optional)
                         </p> */}
-                        
                         <FileUploader
                             file={file}
                             setFile={setFile}

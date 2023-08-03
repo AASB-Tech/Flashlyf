@@ -11,15 +11,15 @@ export default function PopUpDiscardPost({ handleAnswer }) {
                     >
                         Are you sure you want to discard this post?
                     </p>
-                    <div className="flex justify-between gap-2">
+                    <div className="flex justify-center">
                     <button 
-                        className="px-8 py-2 FFred text-black font-bold rounded-full"
+                        className="px-8 mr-12 py-2 bg-FFblue text-white font-bold rounded-full"
                         onClick={() => handleAnswer(true)}
                     >
                         Yes
                     </button>
                     <button 
-                        className="px-8 py-2 FFgreen text-black font-bold rounded-full"
+                        className="px-8 py-2 bg-inactivegrey text-white font-bold rounded-full"
                         onClick={() => handleAnswer(false)}
                     >
                         No
