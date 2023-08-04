@@ -1,4 +1,4 @@
-import BottomPanel from "@/features/home/bottomPanel/BottomPanel";
+import BottomPanel from "@/features/bottomPanel/BottomPanel";
 import Header from "@/features/home/header/Header";
 import NavigationPanel from "@/features/home/navigationPanel/NavigationPanel";
 //import Home from "@/features/home/Home";

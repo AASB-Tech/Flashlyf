@@ -8,8 +8,9 @@ import FileUploader from "./fileUpload/FileUploader";
 import api from "@/clientAPI/api.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark as faCircleXmarkRegular } from "@fortawesome/free-regular-svg-icons";
-import { faCircleXmark as faCircleXmarkSolid, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark as faCircleXmarkSolid } from "@fortawesome/free-solid-svg-icons";
 import PopUpDiscardPost from "./PopUpDiscardPost";
+import ProfilePic from "@/features/user/ProfilePic";
 
 export default function CreatePost() {
     const router = useRouter()
@@ -100,11 +101,9 @@ export default function CreatePost() {
             {showPopUp ? <PopUpDiscardPost  handleAnswer={handleDiscardPost} />
             : null}
             <div className="flex flex-row">
-                <img
-                    className="m-2"
-                    src="example_img.jpg" 
-                    alt="Profile Picture" 
-                    width="30" 
+                <ProfilePic 
+                    classes="m2"
+                    width="30"
                     height="30"
                 />
                 <p
