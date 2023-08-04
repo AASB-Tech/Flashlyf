@@ -1,4 +1,3 @@
-import "@/app/globals.css";
 //import WelcomeLogo from "@/features/GetStarted/WelcomeLogo";
 import ForgotPassword from "@/features/forgotPassword/ForgotPassword";
 

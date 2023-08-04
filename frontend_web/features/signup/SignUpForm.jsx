@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Button from "@/shared/components/Button";
 import { useRouter } from "next/navigation";
 import api from "@/clientAPI/api.js";
-import PopUp from "./PopUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { faCircleUser, faEnvelope } from "@fortawesome/free-regular-svg-icons";
@@ -32,14 +31,19 @@ export default function SignUpForm() {
     if (response) {
       if (response.errors[0]?.message == "A user with that username already exists.") {
         setMessage("Sorry, that username already exists, please try a different username.");
-      } else if (response.errors[0]?.message == "User with this email address already exists.") {
+      } 
+      else if (response.errors[0]?.message == "User with this email address already exists.") {
         setMessage("Sorry, that email already exists, please use a different email.");
-      } else if (response.success) {
+      } 
+      else if (response.success) {
         setSuccess(true);
-      } else {
+        router.push("signup/success");
+      } 
+      else {
         setMessage(response.message);
       }
-    } else {
+    } 
+    else {
       setMessage(
         "Something went wrong. We apologize for the inconvenience. Please try again, or contact us for assistance."
       );
@@ -61,7 +65,6 @@ export default function SignUpForm() {
 
   return (
     <>
-      {success ? <PopUp /> : null}
       <form
         className="max-w-[90%]"
         action="#"

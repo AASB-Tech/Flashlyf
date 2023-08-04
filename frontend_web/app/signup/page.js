@@ -1,5 +1,4 @@
 //import Image from "next/image";
-import "@/app/globals.css";
 //import WelcomeLogo from "@/features/GetStarted/WelcomeLogo";
 import SignUp from "@/features/signup/SignUp";
 

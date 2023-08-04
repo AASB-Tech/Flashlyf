@@ -35,7 +35,9 @@ def get_posts_user(request, user_id):
 
 # NOT DONE YET
 def get_personal_newsfeed(request):
+    limit = int(request.query_params.get('limit', 1))
     user = request.user
+    #posts = filter_expired_posts(posts)
     
 # NOT DONE YET    
 def get_global_newsfeed(request):
@@ -159,6 +161,7 @@ def edit_post(request):
     payload = {"message": "Post updated successfully."}
     return Response(payload, status=status.HTTP_201_CREATED)
 
+# Handles post likes and dislikes (add / remove time)
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def change_time(request, post_id):
