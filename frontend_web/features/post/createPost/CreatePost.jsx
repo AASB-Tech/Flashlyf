@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation'
+import { useIsClient } from '@/shared/providers/IsClientCtxProvider';
 import Button from "@/shared/components/Button";
 import hashtagFormatter from "@/shared/utils/hashtagsFormatter";
 import FileUploader from "./fileUpload/FileUploader";
@@ -11,9 +12,11 @@ import { faCircleXmark as faCircleXmarkRegular } from "@fortawesome/free-regular
 import { faCircleXmark as faCircleXmarkSolid } from "@fortawesome/free-solid-svg-icons";
 import PopUpDiscardPost from "./PopUpDiscardPost";
 import ProfilePic from "@/features/user/ProfilePic";
+import Username from "@/features/user/Username";
 
 export default function CreatePost() {
     const router = useRouter()
+    const isClient = useIsClient();
 
     const [textInput, setTextInput] = useState("");
     // Raw hashtag input (will be converted to array when send to server)
@@ -101,17 +104,16 @@ export default function CreatePost() {
             {showPopUp ? <PopUpDiscardPost  handleAnswer={handleDiscardPost} />
             : null}
             <div className="flex flex-row">
-                <ProfilePic 
+                <ProfilePic
+                    userID={isClient ? window.localStorage.getItem('loggedInUserID') : "12345"}
                     classes="m2"
                     width="30"
                     height="30"
                 />
-                <p
-                    className="m-2 font-bold text-black"
-                >
-                    @aira_24wyeth
-                </p>
-                
+                <Username 
+                    username={isClient ? window.localStorage.getItem('loggedInUsername') : "username"}
+                    classes="m2"
+                />
                 {/* Discard button */}
                 <button
                     className="absolute top-0 right-0 mt-2 mr-2"

@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("user_id", "username", "email", "user_role")
+        fields = ("user_id", "username", "email", "role")
 
 class UserFullSerializer(serializers.ModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(source="id", read_only=True)

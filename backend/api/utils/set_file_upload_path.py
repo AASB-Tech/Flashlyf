@@ -15,11 +15,10 @@ def set_file_upload_path(instance, filename, filetype, context, reference_instan
     upload_path = ""
     
     allowed_filetypes = files.ACCEPTED_IMAGE_FORMATS + files.ACCEPTED_VIDEO_FORMATS + files.ACCEPTED_AUDIO_FORMATS
-    allowed_contexts = ["avatars", "ads", "comments", "posts"]
     try:
         if filetype not in allowed_filetypes:
             raise FileTypeNotAllowed("Wrong file type. " + filetype + " not allowed. File saving failed.")
-        if context not in allowed_contexts:
+        if context not in files.ALLOWED_CONTEXTS:
             raise ContextNotAllowed("Wrong context. " + context + " not allowed. File saving failed.")
         
         # Save the context part of the path
@@ -33,13 +32,14 @@ def set_file_upload_path(instance, filename, filetype, context, reference_instan
         elif context == "ad":
             upload_path += "/ads"
         
-        # Save the file type part of the path
-        if filetype["mime_type"] in files.ACCEPTED_IMAGE_FORMATS:
-            upload_path += "images"
-        elif filetype["mime_type"] in files.ACCEPTED_VIDEO_FORMATS:
-            upload_path += "videos"
-        elif filetype["mime_type"] in files.ACCEPTED_AUDIO_FORMATS:
-            upload_path += "audios"
+        if context != "avatar": # Avatars will be saved in their root dir
+            # Save the file type part of the path
+            if filetype["mime_type"] in files.ACCEPTED_IMAGE_FORMATS:
+                upload_path += "images"
+            elif filetype["mime_type"] in files.ACCEPTED_VIDEO_FORMATS:
+                upload_path += "videos"
+            elif filetype["mime_type"] in files.ACCEPTED_AUDIO_FORMATS:
+                upload_path += "audios"
         
     # TODO: Replace or remove this. The only valid exception I could see triggered is KeyError. We could remediate by using .get        
     except Exception as e: 

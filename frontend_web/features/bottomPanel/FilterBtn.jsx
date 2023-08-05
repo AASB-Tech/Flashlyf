@@ -64,6 +64,7 @@ export default function FilterBtn() {
                     />
                   </div>
                 </div>
+                <p className="text-FFblue text-lg font-bold text-center m-2">All</p>
               </div>
               <hr className="h-0.5 bg-black" />
               <div className="flex flex-row justify-between">
@@ -84,7 +85,7 @@ export default function FilterBtn() {
                   />
                 </div>
               </div>
-              <p className="text-FFblue text-lg font-bold text-center m-2">All</p>
+              <p className="text-FFblue text-lg font-bold text-center m-2">Recent</p>
             </div>
           </>
         : null

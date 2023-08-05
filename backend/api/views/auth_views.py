@@ -40,13 +40,13 @@ def login_view(request):
             "id": str(user.id),
             "username": user.username,
             "email": user.email,
-            "role": user.user_role
+            "role": user.role
         }
         request.session.update(user_info) # This does not work???
         request.session['id'] = str(user.id)
         request.session['username'] = user.username
         request.session['email'] = user.email
-        request.session['role'] = user.user_role
+        request.session['role'] = user.role
         payload = {"data": {"user": user_info},
                     "message": "User logged in."}
         return Response(payload)

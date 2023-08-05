@@ -4,12 +4,14 @@ import "./halfCircleOverlay.css";
 //import "@/shared/styles/halfCircleOverlay.css";
 import Link from "next/link";
 import { useState } from "react";
+import { useIsClient } from '@/shared/providers/IsClientCtxProvider';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import Backdrop from "@/shared/components/Backdrop";
 
 export default function FlashLyfBtn() {
 
+    const isClient = useIsClient();
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = () => {
@@ -48,7 +50,7 @@ export default function FlashLyfBtn() {
                     </div>
 
                     <div className="flex m-2 opacity-100 z-50">
-                        <Link href="/user/1234">
+                        <Link href={`/${isClient ? window.localStorage.getItem('loggedInUsername') : "username"}}`}>
                             <FontAwesomeIcon
                                 icon={faCircleUser}
                                 fontSize="30px"

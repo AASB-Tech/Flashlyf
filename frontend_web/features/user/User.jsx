@@ -2,7 +2,7 @@ import Username from "@/features/user/Username";
 import FollowBtn from "./FollowBtn";
 import FollowersBtn from "./FollowersBtn";
 
-export default function User() {
+export default function User({ username }) {
 
     return (
         <>
@@ -10,15 +10,17 @@ export default function User() {
             <div className="flex flex-row justify-between">
                 <FollowersBtn />
                 <ProfilePic 
+                    userID={username}
                     classes="m2"
                     width="30"
                     height="30"
                 />
                 <FollowBtn />
-
             </div>
             {/* top section END */}
-            <Username/>
+            <Username
+                username={username}
+            />
             {/* time details section */}
             <div className="flex flex-row">
                 <div className="flex flex-col">

@@ -1,18 +1,16 @@
-"use client"
+import Link from "next/link";
 
-export default function Username({ classes }) {
+export default function Username({ username, classes }) {
 
     return (
         <>
-            <p
-                className={classes}
-            >
-                @{window.localStorage.getItem('loggedInUsername').length > 0 ?
-                    window.localStorage.getItem('loggedInUsername')
-                    :
-                    "Username"
-                }
-            </p>
+            <Link href={`/${username}`}>
+                <p
+                    className={`${classes} font-bold text-black`}
+                >
+                    @{username}
+                </p>
+            </Link>
         </>
     )
 }

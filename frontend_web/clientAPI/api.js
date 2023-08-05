@@ -3,6 +3,7 @@ import axios from "axios";
 import createMultiPartFormData from "@/shared/utils/createMultiPartFormData";
 import get_csrf_token from "@/shared/utils/getCsrfToken.js";
 import handleApiError from "@/shared/utils/handleApiError.js";
+import { BACKEND_URL } from "@/shared/constants/urls.js";
 
 /*
     How to use this API:
@@ -12,19 +13,9 @@ import handleApiError from "@/shared/utils/handleApiError.js";
     const res = await api.methodName()
 */
 
-const IS_DEVMODE = process.env.NEXT_PUBLIC_NODE_ENV === "development";
-
-let baseURL = '';
-if (IS_DEVMODE === true) {
-    baseURL = `http://${process.env.NEXT_PUBLIC_API_SERVER_URL}:${process.env.NEXT_PUBLIC_API_SERVER_PORT}/`;
-}
-else if (IS_DEVMODE === false) {
-    baseURL = process.env.NEXT_PUBLIC_API_SERVER_URL;
-}
-
 axios.defaults.withCredentials = true;
 const axiosInstance = axios.create({
-    baseURL: baseURL,
+    baseURL: BACKEND_URL,
     withCredentials: true,
     timeout: 9000 //Timeout response after 9 seconds
 });
@@ -70,8 +61,8 @@ class Api {
 
     /**
      *
-     * @param {String} username
      * @param {String} email
+     * @param {String} username
      * @param {String} password
      * @returns
     */
