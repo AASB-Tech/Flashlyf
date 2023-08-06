@@ -4,7 +4,7 @@ import { atom } from "recoil";
     How to use this atom:
 
     import { useRecoilState } from "recoil";
-    import testState from "@/shared/state/testState.js";
+    import userSate from "@/shared/state/userState.js";
 
     const [userState, setTestData] = useRecoilState(userState);
 
