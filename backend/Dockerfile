@@ -3,10 +3,11 @@ FROM python:3.11-alpine AS production
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
-# Install dependencies
+# Install and update dependencies
 RUN apk update \
     && apk add --virtual build-essential gcc python3-dev musl-dev libffi-dev \
     && apk add postgresql-dev \
+    && pip install --upgrade setuptools pip \ 
     && pip install psycopg2
 
 COPY . /backend
