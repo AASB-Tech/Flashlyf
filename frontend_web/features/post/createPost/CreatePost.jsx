@@ -30,6 +30,7 @@ export default function CreatePost() {
     const [isHovered, setIsHovered] = useState(false);
     const [showPopUp, setShowPopUp] = useState(false);
     const [discardAnswer, setDiscardAnswer] = useState(false);
+    const [message, setMessage] = useState("");
 
     // Create post logic
     async function handleSubmit(e) {
@@ -40,6 +41,12 @@ export default function CreatePost() {
             scheduled_time: null
         }
         const response = await api.createPost(postData, file);
+        if (response.success === true) {
+            router.push("/home")
+        }
+        else {
+            setMessage(response.message);
+        }
     }
 
     const handleChange = (e) => {
@@ -103,7 +110,7 @@ export default function CreatePost() {
         <>
             {showPopUp ? <PopUpDiscardPost  handleAnswer={handleDiscardPost} />
             : null}
-            <div className="flex flex-row">
+            <div className="flex flex-row m-2">
                 <ProfilePic
                     userID={isClient ? window.localStorage.getItem('loggedInUserID') : "12345"}
                     classes="m2"
@@ -190,6 +197,7 @@ export default function CreatePost() {
                     <div
                         className="w-1/2 mx-auto my-4"
                     >
+                        {message} {/* Error message */}
                         <Button
                             text="Create post"
                             link="#"

@@ -5,7 +5,7 @@ import api from "@/clientAPI/api.js";
 
 export default function FollowBtn() {
 
-    [isDisabled, setIsDisabled] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const handleAction = () => {
         const response = api.follow();

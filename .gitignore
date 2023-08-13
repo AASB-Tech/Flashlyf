@@ -1,5 +1,18 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# ======================== Flashlyf specific =====================================
+
+/backend/media/**/*.jpg
+/backend/media/**/*.jpeg
+/backend/media/**/*.png
+/backend/media/**/*.webp
+/backend/media/**/*.gif
+/backend/media/**/*.mp4
+/backend/media/**/*.webm
+/backend/media/**/*.mpeg
+/backend/media/**/*.mp3
+/backend/media/**/*.ogg
+
 # ======================== Python ================================================
 
 # Byte-compiled / optimized / DLL files

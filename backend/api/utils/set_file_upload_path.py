@@ -1,3 +1,4 @@
+import os
 from api.constants import files
 
 class ContextNotAllowed(Exception):
@@ -10,7 +11,7 @@ class FileTypeNotAllowed(Exception):
 
 # Set the path of where the file should be uploaded.
 # The URL will be derived from this too.
-# reference_instances needs to passed in as an array of instances
+# reference_instances needs to passed in as an array of instances (usually not used LOL, but still keep it just in case. ;)
 def set_file_upload_path(instance, filename, filetype, context, reference_instances=None): 
     upload_path = ""
     
@@ -20,30 +21,22 @@ def set_file_upload_path(instance, filename, filetype, context, reference_instan
             raise FileTypeNotAllowed("Wrong file type. " + filetype + " not allowed. File saving failed.")
         if context not in files.ALLOWED_CONTEXTS:
             raise ContextNotAllowed("Wrong context. " + context + " not allowed. File saving failed.")
+
+        if context != "avatars": 
+            # Save the path if correct file type
+            if filetype in files.ACCEPTED_IMAGE_FORMATS:
+                upload_path = os.path.join(context, "images", filename)
+            elif filetype in files.ACCEPTED_VIDEO_FORMATS:
+                upload_path = os.path.join(context, "videos", filename)
+            elif filetype in files.ACCEPTED_AUDIO_FORMATS:
+                upload_path = os.path.join(context, "audios", filename)
+        # Avatars will be saved in their root dir, because it only consists of images so having subfolders for that is redundant.
+        elif context == "avatars" and filetype in files.ACCEPTED_IMAGE_FORMATS:
+            upload_path = os.path.join(context, filename)
         
-        # Save the context part of the path
-        if context == "post":
-            upload_path += "/posts"
-        elif context == "comment":
-            upload_path += "/comments"
-        elif context == "avatar":
-            upload_path += "/avatars"
-            #raise ContextNotAllowed("Avatars can only be images.")
-        elif context == "ad":
-            upload_path += "/ads"
-        
-        if context != "avatar": # Avatars will be saved in their root dir
-            # Save the file type part of the path
-            if filetype["mime_type"] in files.ACCEPTED_IMAGE_FORMATS:
-                upload_path += "images"
-            elif filetype["mime_type"] in files.ACCEPTED_VIDEO_FORMATS:
-                upload_path += "videos"
-            elif filetype["mime_type"] in files.ACCEPTED_AUDIO_FORMATS:
-                upload_path += "audios"
-        
-    # TODO: Replace or remove this. The only valid exception I could see triggered is KeyError. We could remediate by using .get        
+    # TODO: Replace or remove this. The only valid exception I could see triggered is KeyError. We could remediate by using .get ?????   
     except Exception as e: 
-        print(e)
+        print("Error in set_file_upload_path: ", e)
         return None
         
     return upload_path

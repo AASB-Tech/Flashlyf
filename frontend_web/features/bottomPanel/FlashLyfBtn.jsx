@@ -50,7 +50,7 @@ export default function FlashLyfBtn() {
                     </div>
 
                     <div className="flex m-2 opacity-100 z-50">
-                        <Link href={`/${isClient ? window.localStorage.getItem('loggedInUsername') : "username"}}`}>
+                        <Link href={`/${isClient ? window.localStorage.getItem('loggedInUsername') : "username"}`}>
                             <FontAwesomeIcon
                                 icon={faCircleUser}
                                 fontSize="30px"

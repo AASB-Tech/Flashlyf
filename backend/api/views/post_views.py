@@ -54,9 +54,10 @@ def get_global_newsfeed(request):
 def create_post(request):
     text_content = request.POST.get("text_content")
     hashtags = request.POST.getlist("hashtags")
+    
     if len(hashtags) > 3:
         payload = {"success": False, "message": "Maximum number of hashtags is 3."}
-        Response(payload, status=status.HTTP_400_BAD_REQUEST)
+        return Response(payload, status=status.HTTP_400_BAD_REQUEST)
     user = request.user
     # try post creation
     try:
@@ -72,10 +73,9 @@ def create_post(request):
         for tag in hashtags:
             # If the hashtag does not exist yet, create it and then get it.
             # If the hashtag already exists, get it.
-            hashtag, created = Hashtag.objects.get_or_create(hashtag=tag)
+            hashtag, created = Hashtag.objects.get_or_create(id=tag)
             post.hashtags.add(hashtag)
-        post.save()
-        
+        post.save()        
         # Post contains a file
         if request.FILES:
             uploaded_file = request.FILES.get("file")
@@ -85,9 +85,9 @@ def create_post(request):
             # Change the filename to postid
             original_filename = uploaded_file.name
             file_extension = os.path.splitext(original_filename)[1]
-            new_filename = post.id + file_extension
+            new_filename = str(post.id) + file_extension
             uploaded_file.name = new_filename
-            upload_path = set_file_upload_path(post, new_filename, filetype['mime_type'], "post")
+            upload_path = set_file_upload_path(post, new_filename, filetype['mime_type'], "posts")
             # Save the file to the filesystem and in the post instance
             post.file.upload_to = upload_path
             post.file.save(upload_path, uploaded_file, save=True)
@@ -100,14 +100,14 @@ def create_post(request):
             if post.file:
                 post.file.delete
             post.delete()
-        print(e)
+        print("Error in createPost: ", e)
         payload = {"success": False, "message": e.args[0]}
-        Response(payload, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(payload, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     # TODO: Create a notification towards followers of the post"s user. (in Redis)
-
+    
     payload = {"success": True, "message": "Post created successfully."}
-    Response(payload, status=status.HTTP_201_CREATED)
+    return Response(payload, status=status.HTTP_201_CREATED)
 
 @api_view(["DELETE"])
 @permission_classes([IsAuthenticated])

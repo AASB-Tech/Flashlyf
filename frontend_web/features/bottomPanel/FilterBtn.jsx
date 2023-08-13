@@ -1,15 +1,16 @@
 "use client"
 
 import { useState } from "react";
-import { postTypeFilterState, orderFilterState } from "@/shared/state/globalState";
+import { useRecoilState } from "recoil";
+import { postTypeFilterState as postTypeFilterStateRecoil, orderFilterState as orderFilterStateRecoil} from "@/shared/state/globalState";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faVideo, faImage, faMicrophoneLines, faFileLines, faAward, faHourglassEnd } from "@fortawesome/free-solid-svg-icons";
 import Backdrop from "@/shared/components/Backdrop";
 
 export default function FilterBtn() {
 
-  const [postTypeFilterState, setPostTypeFilterState] = useRecoilState(postTypeFilterState);
-  const [orderFilterState, setOrderFilterState] = useRecoilState(orderFilterState);
+  const [postTypeFilterState, setPostTypeFilterState] = useRecoilState(postTypeFilterStateRecoil);
+  const [orderFilterState, setOrderFilterState] = useRecoilState(orderFilterStateRecoil);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -97,7 +98,7 @@ export default function FilterBtn() {
                       icon={faVideo} 
                       onClick={() => {togglePostTypeFilterState("video")}}
                       fontSize="30px"
-                      style={{color: "#4d4d4d",}}
+                      style={{color: postTypeFilterState.video ? "#3734a6" : "#4d4d4d"}}
                     />
                   </div>
                   <div className="m-2">
@@ -105,7 +106,7 @@ export default function FilterBtn() {
                       icon={faImage} 
                       onClick={() => {togglePostTypeFilterState("image")}}
                       fontSize="30px"
-                      style={{color: "#4d4d4d",}}
+                      style={{color: postTypeFilterState.image ? "#3734a6" : "#4d4d4d"}}
                     />
                   </div>
                 </div>
@@ -115,7 +116,7 @@ export default function FilterBtn() {
                       icon={faMicrophoneLines} 
                       onClick={() => {togglePostTypeFilterState("audio")}}
                       fontSize="30px"
-                      style={{color: "#4d4d4d",}}
+                      style={{color: postTypeFilterState.audio ? "#3734a6" : "#4d4d4d"}}
                     />
                   </div>
                   <div className="m-2">
@@ -123,15 +124,24 @@ export default function FilterBtn() {
                       icon={faFileLines} 
                       onClick={() => {togglePostTypeFilterState("text")}}
                       fontSize="30px"
-                      style={{color: "#4d4d4d",}}
+                      style={{color: postTypeFilterState.text ? "#3734a6" : "#4d4d4d"}}
                     />
                   </div>
                 </div>
-                <button
-                  onClick={() => {togglePostTypeFilterState("all")}}
-                >
-                  <p className="text-FFblue text-lg font-bold text-center m-2">All</p>
-                </button>
+                <div className="text-center m-2">
+                  <button
+                    onClick={() => {togglePostTypeFilterState("all")}}
+                  >
+                    <p className={`${postTypeFilterState.text &&
+                                    postTypeFilterState.image &&
+                                    postTypeFilterState.video &&
+                                    postTypeFilterState.audio ? 
+                                    'text-FFblue' : 'inactivegrey'} text-lg font-bold`}
+                    >
+                      All
+                    </p>
+                  </button>
+              </div>
               </div>
               <hr className="h-0.5 bg-black" />
               <div className="flex flex-row justify-between">
@@ -140,7 +150,7 @@ export default function FilterBtn() {
                     icon={faAward} 
                     onClick={() => {toggleOrderFilterState("top")}}
                     fontSize="30px"
-                    style={{color: "#4d4d4d",}}
+                    style={{color: orderFilterState.top ? "#3734a6" : "#4d4d4d"}}
                   />
                 </div>
                 <div className="m-2">
@@ -148,15 +158,17 @@ export default function FilterBtn() {
                     icon={faHourglassEnd} 
                     onClick={() => {toggleOrderFilterState("expiring")}}
                     fontSize="30px"
-                    style={{color: "#4d4d4d",}}
+                    style={{color: orderFilterState.expiring ? "#3734a6" : "#4d4d4d"}}
                   />
                 </div>
               </div>
-              <button
-                onClick={() => {toggleOrderFilterState("recent")}}
-              >
-                <p className="text-FFblue text-lg font-bold text-center m-2">Recent</p>
-              </button>
+              <div className="text-center m-2">
+                <button
+                  onClick={() => {toggleOrderFilterState("recent")}}
+                >
+                  <p className={`${orderFilterState.recent ? 'text-FFblue' : 'inactivegrey'} text-lg font-bold`}>Recent</p>
+                </button>
+              </div>
             </div>
           </>
         : null

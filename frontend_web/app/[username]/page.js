@@ -1,5 +1,8 @@
+"use client"
+
 import { useParams } from "next/navigation";
 import User from "@/features/user/User";
+import BottomPanel from "@/features/bottomPanel/BottomPanel";
 
 export default function UserPage() {
     const params = useParams();

@@ -1,6 +1,7 @@
 import Username from "@/features/user/Username";
 import FollowBtn from "./FollowBtn";
 import FollowersBtn from "./FollowersBtn";
+import ProfilePic from "@/features/user/ProfilePic";
 
 export default function User({ username }) {
 
