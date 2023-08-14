@@ -17,8 +17,8 @@ export default function LikeBtn({isClicked}) {
                 >
                     <FontAwesomeIcon
                         icon={faThumbsUp}
-                        fontSize="20px"
-                        style={isClicked ? {color: "#23cb98"} : {color: "#f8f2df"}}
+                        fontSize="30px"
+                        style={isClicked ? {color: "#f8f2df"} : {color: "#23cb98"}}
                     />
                 </button>
             </div>

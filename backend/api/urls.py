@@ -12,8 +12,10 @@ urlpatterns = [
     #path("auth/resetPassword", auth_views.reset_password, name="teset-password"),
     # user urls
     path("users/changeProfilePic", user_views.change_profile_pic, name="change-profile-pic"),
-    # post or note urls
+    # post urls
     path("posts/getPostsUser/<str:user_id>", post_views.get_posts_user, name="get-posts-user"),
+    path("posts/getPersonalNewsfeed/", post_views.get_personal_newsfeed, name="get-personal-newsfeed"),
+    path("posts/getGlobalNewsfeed", post_views.get_global_newsfeed, name="get-global-newsfeed"),
     path("posts/createPost", post_views.create_post, name="create-post"),
     path("posts/editPost", post_views.edit_post, name="edit-post"),
     path("posts/deletePost", post_views.delete_post, name="delete-post"),

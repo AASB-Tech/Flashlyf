@@ -17,7 +17,7 @@ export default function DislikeBtn({isClicked}) {
                 >
                     <FontAwesomeIcon
                         icon={faThumbsDown}
-                        fontSize="20px"
+                        fontSize="30px"
                         style={isClicked ? {color: "#23cb98"} : {color: "#ff3131"}}
                     />
                 </button>

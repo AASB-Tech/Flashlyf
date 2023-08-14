@@ -149,6 +149,27 @@ class Api {
         }
     }
 
+    async getPersonalNewsFeed(limit=100) {
+        try {
+            const response = await this.api.get(`api/posts/getPersonalNewsfeed/?limit=${limit}`);
+            console.log("posts personal newsfeed: ", response.data);
+            return response.data;
+        }
+        catch (error) {
+                return handleApiError(error);
+        }
+    }
+
+    async getGlobalNewsFeed(limit=100) {
+        try {
+            const response = await this.api.get(`api/posts/getGlobalNewsfeed/?limit=${limit}`);
+            return response.data;
+        }
+        catch (error) {
+                return handleApiError(error);
+        }
+    }
+
     async getPostsUser(user_id, limit=100) {
         try {
             const response = await this.api.get(`api/posts/getPostsUser/${user_id}?limit=${limit}`);
@@ -159,9 +180,9 @@ class Api {
         }
     }
     
-    async getFollowersList() {
+    async getFollowersList(user_id) {
         try {
-            const response = await this.api.get(`api/followers/getFollowersList`);
+            const response = await this.api.get(`api/followers/getFollowersList/${user_id}`);
             return response.data;
         }
         catch (error) {

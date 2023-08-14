@@ -1,4 +1,5 @@
 import BottomPanel from "@/features/bottomPanel/BottomPanel";
+import PersonalNewsfeed from "@/features/home/Content/PersonalNewsfeed";
 import Header from "@/features/home/header/Header";
 import NavigationPanel from "@/features/home/navigationPanel/NavigationPanel";
 //import Home from "@/features/home/Home";
@@ -6,10 +7,11 @@ import NavigationPanel from "@/features/home/navigationPanel/NavigationPanel";
 // This is the personal newsfeed
 export default function HomePage() {
   return (
-    <div className="max-w-[415px] w-screen bg-[#F9F9F9] h-inherit min-h-[852px]">
+    <div className="max-w-[415px] w-screen bg-offwhite h-inherit min-h-[852px]">
       <div className="flex flex-col justify-center items-center">
         <Header />
         <NavigationPanel />
+        <PersonalNewsfeed />
         <BottomPanel />
       </div>
     </div>

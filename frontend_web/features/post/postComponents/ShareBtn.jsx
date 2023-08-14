@@ -17,8 +17,8 @@ export default function ShareBtn() {
                 >
                     <FontAwesomeIcon
                         icon={faShare}
-                        fontSize="20px"
-                        style={{color: "#23cb98"}}
+                        fontSize="30px"
+                        style={{color: "#f8f2df"}}
                     />
                 </button>
             </div>

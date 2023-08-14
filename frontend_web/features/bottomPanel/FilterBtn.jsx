@@ -79,7 +79,7 @@ export default function FilterBtn() {
 
     return (
       <>
-        <div className="relative bg-white">
+        <div className="relative bg-offwhite">
         <FontAwesomeIcon 
             icon={faFilter} 
             onClick={toggleFilter}

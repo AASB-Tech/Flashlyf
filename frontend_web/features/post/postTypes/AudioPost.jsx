@@ -1,12 +1,12 @@
 
-export default function AudioPost() {
+export default function AudioPost({ post }) {
     
     return (
         <>
             <div 
                 className=""
             >
-                <p>Post</p>
+                <p>Audio Post</p>
             </div>
         </>
     )

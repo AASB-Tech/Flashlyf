@@ -1,15 +1,22 @@
+import Link from "next/link";
 
-export default function Hashtags() {
+export default function Hashtags( {tags} ) {
+
+    console.log("tags", tags);
 
     return (
         <>
-            <div className="flex flex-row scroll-text">
-
-                <Link href={`/blabla`}>
-                    <p>
-                        #blabla
-                    </p>
-                </Link>
+            <div className="flex">
+                
+                {tags.map((tag) => {
+                    <div key={tag}>
+                        <Link href={`/${tags}`}>
+                            <p className=" text-hashtagblue">
+                                #{tag}
+                            </p>
+                        </Link>
+                    </div>
+                })}
             </div>
         </>
     )

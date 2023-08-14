@@ -308,8 +308,10 @@ if os.getenv("STAGE") == "production":
 elif os.getenv("STAGE") == "development":
     SESSION_COOKIE_SECURE = False  
     CSRF_COOKIE_SECURE = False 
-    SESSION_COOKIE_DOMAIN = '.localhost'
-    CSRF_COOKIE_DOMAIN = '.localhost'
+    SESSION_COOKIE_DOMAIN = '.flashlyf.lan'
+    CSRF_COOKIE_DOMAIN = '.flashlyf.lan'
+    #SESSION_COOKIE_DOMAIN = '.localhost'
+    #CSRF_COOKIE_DOMAIN = '.localhost'
 
 AUTH_USER_MODEL = "api.User"
 AUTHENTICATION_BACKENDS = [

@@ -21,6 +21,8 @@ module.exports = {
         FFgreen: "#23cb98",
         hashtagblue: "#2a27aa",
         inactivegrey: "#4d4d4d",
+        placeholdergrey: "#8e8e8e",
+        offwhite: "#f9f9f9",
       },
       fontFamily: {
         'ubuntu': ['Ubuntu', 'sans-serif']

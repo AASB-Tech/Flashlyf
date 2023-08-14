@@ -146,7 +146,7 @@ export default function CreatePost() {
                     onSubmit={handleSubmit}
                 >
                     <textarea
-                        className="w-full min-w-full max-w-full mt-6 placeholder:text-center placeholder:text-lg text-black p-2"
+                        className="w-full min-w-full max-w-full bg-offwhite mt-6 placeholder:text-center placehholder:text-placeholdergrey placeholder:text-lg text-black p-2"
                         rows="5"
                         id="newPostText"
                         aria-label="Write the text for your post."
@@ -158,28 +158,31 @@ export default function CreatePost() {
                         onChange={handleChange}
                     />
 
-                    <div
+                    {/* <div
                         className="relative bg-[#5250a8] w-full p-2 text-center text-white"
                         forhtml="newPostHashtags"
                     >
-                        Write hashtags here:
-                    </div>
-                    <p 
-                        className="w-full min-w-full max-w-full text-hashtagblue px-2 mb-1"
-                    >
-                        {hashtagPreview}
-                    </p>
+                        
+                    </div> */}
+
                     <input
-                        className="w-full placeholder:text-center text-black p-2 text-hashtagblue"
+                        className="w-full bg-[#5250a8] placeholder:text-center placehholder:text-placeholdergrey text-white p-2 text-hashtagblue"
                         id="newPostHashtags"
                         aria-label="Set hashtags for your post"
                         type="text"
-                        placeholder="Minimum of 1 hashtag, maximum of 3 hashtags."
+                        placeholder="Write hashtags here."
                         name="hashtags"
                         value={hashtagInput}
                         onChange={handleChange}
                         required
                     ></input>
+
+                    <p 
+                        className={`${hashtagPreview.length <= 3 ? 'text-placeholdergrey' : 'text-hashtagblue'} w-full min-w-full max-w-full  px-2 my-2`}
+                    >
+                        {hashtagPreview.length <= 3 ? "Minimum of 1 hashtag, maximum of 3 hashtags." : hashtagPreview}
+                    </p>
+
                     <div
                         className="bg-[#5250a8] w-full"
                     >
@@ -199,7 +202,7 @@ export default function CreatePost() {
                     >
                         {message} {/* Error message */}
                         <Button
-                            text="Create post"
+                            text="Post"
                             link="#"
                             type="submit"
                             onclick={handleSubmit}

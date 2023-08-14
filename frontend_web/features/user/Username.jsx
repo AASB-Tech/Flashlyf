@@ -8,7 +8,7 @@ export default function Username({ username, classes }) {
                 <p
                     className={`${classes} font-bold text-black`}
                 >
-                    @{username}
+                    @{username ? username : "user not found"}
                 </p>
             </Link>
         </>

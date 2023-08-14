@@ -27,24 +27,33 @@ def get_posts_user(request, user_id):
     limit = int(request.query_params.get('limit', 1))
     if user_id:
         user = User.objects.get(id=user_id)
-        posts = Post.objects.filter(user=user)[:limit]
-        posts = filter_expired_posts(posts)
+        posts = Post.objects.filter(user=user)
+        posts = filter_expired_posts(posts)[:limit]
     posts_serialized = PostSerializer(posts, many=True).data
     payload = {"data": posts_serialized}
     return Response(payload, status=status.HTTP_200_OK)
 
 # NOT DONE YET
+@api_view(["GET"])
 def get_personal_newsfeed(request):
     limit = int(request.query_params.get('limit', 1))
     user = request.user
-    #posts = filter_expired_posts(posts)
+    posts = Post.objects.all()
+    posts = filter_expired_posts(posts)[:limit]
     
-# NOT DONE YET    
+    # Newsfeed algorithm
+    
+    posts_serialized = PostSerializer(posts, many=True).data
+    payload = {"data": posts_serialized}
+    return Response(payload, status=status.HTTP_200_OK)
+    
+# NOT DONE YET  
+@api_view(["GET"])  
 def get_global_newsfeed(request):
     limit = int(request.query_params.get('limit', 1))
     # Get all the posts
-    posts = Post.objects.all()[:limit]
-    posts = filter_expired_posts(posts)
+    posts = Post.objects.all()
+    posts = filter_expired_posts(posts)[:limit]
     posts_serialized = PostSerializer(posts, many=True).data
     payload = {"data": posts_serialized}
     return Response(payload, status=status.HTTP_200_OK)
@@ -54,7 +63,9 @@ def get_global_newsfeed(request):
 def create_post(request):
     text_content = request.POST.get("text_content")
     hashtags = request.POST.getlist("hashtags")
-    
+    # Transform the hashtags into a proper array
+    hashtags = hashtags[0].split(',')
+
     if len(hashtags) > 3:
         payload = {"success": False, "message": "Maximum number of hashtags is 3."}
         return Response(payload, status=status.HTTP_400_BAD_REQUEST)

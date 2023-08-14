@@ -59,8 +59,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         )
 
 class UserNotificationPreferences(serializers.ModelSerializer):
-    user_notification_preferences_id = serializers.PrimaryKeyRelatedField(
-        source="id", read_only=True)
+    user_notification_preferences_id = serializers.PrimaryKeyRelatedField(source="id", read_only=True)
     user_id = serializers.UUIDField(source="user.id", read_only=True)
 
     class Meta:
@@ -70,16 +69,28 @@ class UserNotificationPreferences(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     #post_id = serializers.PrimaryKeyRelatedField(source="id", read_only=True)
     user_id = serializers.UUIDField(source="user.id", read_only=True)
-    file_url = serializers.CharField(source="picture.file.url", read_only=True)
+    username = serializers.CharField(source="user.username", read_only=True)
+    #file_url = serializers.CharField(source="file.url", read_only=True)
+    file_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = (
             "id",
             "user_id",
-            "file_url",
+            "username",
             "text_content",
-            "hearts",
+            "file_url",
+            "post_type",
+            "hashtags",
+            "time_added",
+            "time_removed",
             "created_at",
-            "updated_at"
+            "updated_at",
+            "expires_at"
         )
+        
+    def get_file_url(self, post):
+        if post.file:
+            return post.file.url
+        return ""  # Return empty string if no associated file

@@ -1,12 +1,12 @@
 
-export default function TextPost() {
+export default function TextPost({ post }) {
     
     return (
         <>
             <div 
                 className=""
             >
-                <p>Post</p>
+                <p>Text Post</p>
             </div>
         </>
     )
