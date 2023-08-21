@@ -1,12 +1,13 @@
+import PostOverlay from '../postComponents/PostOverlay';
 
 export default function ImagePost({ post }) {
     
     return (
         <>
             <div 
-                className=""
+                className={`relative my-4`} 
             >
-                <p>Image Post</p>
+                <PostOverlay post={post} />
                 <img 
                     src={post.file_url} 
                     alt="image post" 

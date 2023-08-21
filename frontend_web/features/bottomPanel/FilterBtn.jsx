@@ -89,7 +89,7 @@ export default function FilterBtn() {
         {isOpen ? 
           <>
             <Backdrop show={true} onClick={toggleFilter} />
-            <div className="absolute bottom-full top-auto	right-0 z-50 rounded-lg bg-white border p-2">
+            <div className="absolute bottom-full top-auto	right-0 z-[100] rounded-lg bg-white border p-2">
               <p className="text-center text-black">Filter by:</p>
               <div className="">
                 <div className="flex flex-row justify-between">

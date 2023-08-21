@@ -8,7 +8,7 @@ import NavigationPanel from "@/features/home/navigationPanel/NavigationPanel";
 export default function HomePage() {
   return (
     <div className="max-w-[415px] w-screen bg-offwhite h-inherit min-h-[852px]">
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col items-center">
         <Header />
         <NavigationPanel />
         <PersonalNewsfeed />

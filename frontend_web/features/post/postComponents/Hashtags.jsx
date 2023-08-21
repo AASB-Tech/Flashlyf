@@ -1,23 +1,16 @@
 import Link from "next/link";
 
 export default function Hashtags( {tags} ) {
-
-    console.log("tags", tags);
-
+    // TODO: Make sure the link, links to a hashtag search query
     return (
-        <>
-            <div className="flex">
-                
-                {tags.map((tag) => {
-                    <div key={tag}>
-                        <Link href={`/${tags}`}>
-                            <p className=" text-hashtagblue">
-                                #{tag}
-                            </p>
-                        </Link>
-                    </div>
-                })}
-            </div>
-        </>
-    )
+        <div className="flex">
+            {tags.map((tag) => (
+                <Link key={tag} href={`/${tag}`}>
+                    <p className="text-white ml-2">
+                        #{tag}
+                    </p>
+                </Link>
+            ))}
+        </div>
+    );
 }

@@ -33,7 +33,6 @@ export default function PersonalNewsfeed() {
 
     return (
         <div>
-            <h1>Personal News Feed</h1>
             <PostList posts={data.data} />
         </div>
     )
