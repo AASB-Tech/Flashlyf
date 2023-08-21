@@ -1,9 +1,14 @@
+import { useRef } from "react";
+
 import FileInput from "./FileInput";
 import FilePreview from "./FilePreview";
 
 export default function FileUploader({ file, setFile, accept }) {
+    const previewRef = useRef(null);
+
     const removeFile = (e) => {
         setFile(null);
+        previewRef.current = null
     };
 
     return (
@@ -14,7 +19,7 @@ export default function FileUploader({ file, setFile, accept }) {
                 accept={accept}
             />
             <div className="bg-white w-full mx-auto">
-                <FilePreview file={file} />
+                <FilePreview file={file} previewRef={previewRef}  />
             </div>
             {file && (
                 <button

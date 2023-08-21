@@ -19,6 +19,7 @@ import checkFileTooLarge from "@/shared/utils/checkFileTooLarge.js";
 
 export default function FileInput({ file, setFile, accept }) {
     const inputRef = useRef(null);
+    const widthRef = useRef(null);
     //const { notifyToast, dismissToast } = useToast();
 
     useEffect(() => {
@@ -35,22 +36,55 @@ export default function FileInput({ file, setFile, accept }) {
     const handleFile = (e) => {
         const eventFile = e.target.files[0];
         if (!eventFile) {
-            return;
+            setFile(null);
+            return null;
         }
-
         const sizeDoesntExist = !eventFile.size;
 
-        // if (sizeDoesntExist) {
-        //     return notifyToast("No file size found. Invalid file.", true);
-        // }
+        if (sizeDoesntExist) {
+            setFile(null);
+            return null;
+            //return notifyToast("No file size found. Invalid file.", true);
+        }
 
         const fileIsTooLarge = checkFileTooLarge(eventFile.size);
 
-        // if (fileIsTooLarge) {
-        //     return notifyToast("File is too Large!", true);
-        // }
+        if (fileIsTooLarge) {
+            setFile(null);
+            return null;
+            //return notifyToast("File is too Large!", true);
+        }
 
-        setFile(eventFile);
+        // Check if the file is an image or a video
+        if (eventFile.type.includes("image") || eventFile.type.includes("video")) {
+            // Check if the file is horizontal or vertical
+            const mediaElement = eventFile.type.includes("image")
+                ? document.createElement("img")
+                : document.createElement("video");
+
+            mediaElement.src = URL.createObjectURL(eventFile);
+
+            return mediaElement.onload = () => {
+                // Get the width and height
+                const width = mediaElement.naturalWidth;
+                const height  = mediaElement.naturalHeight;
+                // Remove the created element
+                mediaElement.remove();
+                URL.revokeObjectURL(mediaElement.src);
+                // Block the file if its horizontal
+                const isHorizontal = (width > height);
+                if (isHorizontal) {
+                    setFile(null);
+                    // TODO: Make this alert better.
+                    alert("Horizontal images and videos are not yet allowed on Flashlyf, but we are working on supporting horizontal content.")
+                    return null;
+                }
+                else {
+                    setFile(eventFile);
+                }
+            };
+        }
+        //setFile(eventFile);
     };
 
     return (

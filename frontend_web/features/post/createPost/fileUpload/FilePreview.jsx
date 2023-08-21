@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 
-export default function FilePreview({ file }) {
+export default function FilePreview({ file, previewRef }) {
     const [objectUrl, setObjectUrl] = useState();
 
     useEffect(() => {
@@ -25,6 +25,7 @@ export default function FilePreview({ file }) {
     if (file.type.includes("image")) {
         return (
             <img
+                ref={previewRef}
                 src={objectUrl}
                 id="imagePreview"
                 alt="Image preview"
@@ -36,6 +37,7 @@ export default function FilePreview({ file }) {
     if (file.type.includes("video")) {
         return (
             <video
+                ref={previewRef}
                 id="videoPreview"
                 height="240"
                 controls
